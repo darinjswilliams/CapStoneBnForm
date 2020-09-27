@@ -59,21 +59,27 @@ public class LiveScanFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        mFragmentLiveScanBinding = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_live_scan);
+        mFragmentLiveScanBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_live_scan, container, false);
 
-        View view = mFragmentLiveScanBinding.getRoot();
+        return mFragmentLiveScanBinding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         mPreview = mFragmentLiveScanBinding.cameraPreviewId;
 
         mFragmentLiveScanBinding.cameraPreviewGraphicOverlay.setOnClickListener(this);
 
-
+        mGgraphicOverlay  = mFragmentLiveScanBinding.cameraPreviewGraphicOverlay;
+        mGgraphicOverlay.setOnClickListener(this::onClick);
         mCameraSource = new CameraSource(mFragmentLiveScanBinding.cameraPreviewGraphicOverlay);
 
         mPromptChipAnimator =
@@ -88,9 +94,6 @@ public class LiveScanFragment extends Fragment implements View.OnClickListener {
         mFragmentLiveScanBinding.scanActionBarTop.settingsButton.setOnClickListener(this::onClick);
 
         setUpWorkflowModel();
-
-
-        return view;
     }
 
     @Override
@@ -142,44 +145,36 @@ public class LiveScanFragment extends Fragment implements View.OnClickListener {
                     mWorkflowState = workflowState;
                     Log.i(TAG, "CurrentWorkflow state setUpWorkflowModel: " + mWorkflowState.name());
 
-                    boolean wasPrompChipGone = (mPrompChip.getVisibility() == View.GONE);
+                    boolean wasPrompChipGone = (mFragmentLiveScanBinding.bottomPromptChip.getVisibility() == View.GONE);
 
                     switch (workflowState) {
                         case DETECTING:
                             mFragmentLiveScanBinding.bottomPromptChip.setVisibility(View.VISIBLE);
-//                            mPrompChip.setVisibility(View.VISIBLE);
-//                            mPrompChip.setText(R.string.prompt_point_at_a_barcode);
                             mFragmentLiveScanBinding.bottomPromptChip.setText(R.string.prompt_point_at_a_barcode);
                             startCameraPreview();
                             break;
                         case CONFIRMING:
                             mFragmentLiveScanBinding.bottomPromptChip.setVisibility(View.VISIBLE);
-//                            mPrompChip.setVisibility(View.VISIBLE);
                             mFragmentLiveScanBinding.bottomPromptChip.setText(R.string.prompt_move_camera_closer);
-//                            mPrompChip.setText(R.string.prompt_move_camera_closer);
                             startCameraPreview();
                             break;
                         case SEARCHING:
                             mFragmentLiveScanBinding.bottomPromptChip.setVisibility(View.VISIBLE);
-//                            mPrompChip.setVisibility(View.VISIBLE);
                             mFragmentLiveScanBinding.bottomPromptChip.setText(R.string.prompt_searching);
-//                            mPrompChip.setText(R.string.prompt_searching);
                             stopCameraPreview();
                             break;
                         case DETECTED:
                         case SEARCHED:
                             mFragmentLiveScanBinding.bottomPromptChip.setVisibility(View.GONE);
-//                            mPrompChip.setVisibility(View.GONE);
                             stopCameraPreview();
                             break;
                         default:
                             mFragmentLiveScanBinding.bottomPromptChip.setVisibility(View.GONE);
-                            mPrompChip.setVisibility(View.GONE);
                             break;
                     }
 
                     boolean shouldPlayPromptChipEnteringAnimation =
-                            wasPrompChipGone && (mPrompChip.getVisibility() == View.VISIBLE);
+                            wasPrompChipGone && (mFragmentLiveScanBinding.bottomPromptChip.getVisibility() == View.VISIBLE);
                     if (shouldPlayPromptChipEnteringAnimation && !mPromptChipAnimator.isRunning()) {
                         mPromptChipAnimator.start();
                     }
@@ -213,7 +208,7 @@ public class LiveScanFragment extends Fragment implements View.OnClickListener {
     private void stopCameraPreview() {
         if (mWorkflowModel.isCameraLive()) {
             mWorkflowModel.markCameraFrozen();
-            flashButton.setSelected(false);
+            mFragmentLiveScanBinding.scanActionBarTop.flashButton.setSelected(false);
             mPreview.stopCamera();
         }
     }

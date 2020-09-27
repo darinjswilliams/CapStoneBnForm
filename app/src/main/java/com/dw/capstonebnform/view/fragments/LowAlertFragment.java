@@ -12,6 +12,8 @@ import com.dw.capstonebnform.databinding.FragmentLowAlertBinding;
 import com.dw.capstonebnform.dto.RecallWithInjuriesAndImagesAndProducts;
 import com.dw.capstonebnform.viewModel.LowViewModel;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -48,7 +50,12 @@ public class LowAlertFragment extends Fragment implements LowAlertAdapter.OnItem
         Log.i(TAG, "onCreateView: ");
         // Inflate the layout for this fragment
         mFragmentLowAlertBinding = FragmentLowAlertBinding.inflate(inflater, container, false);
-        View view = mFragmentLowAlertBinding.getRoot();
+
+        return mFragmentLowAlertBinding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         initRecyclerView(getContext());
 
@@ -60,8 +67,6 @@ public class LowAlertFragment extends Fragment implements LowAlertAdapter.OnItem
             lowAlertAdapter.setmRecallWithInjuriesAndImagesAndProducts(recallProducts);
 //          lowAlertAdapter.setRecallWithProductsAndImages(lowViewModel.getMockDummyData());
         });
-
-        return view;
     }
 
     private void initRecyclerView(Context context) {
@@ -83,5 +88,11 @@ public class LowAlertFragment extends Fragment implements LowAlertAdapter.OnItem
     @Override
     public void onClick(RecallWithInjuriesAndImagesAndProducts mRecallWithInjuriesAndImagesAndProducts) {
         Log.i(TAG, "onClick: ");
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }
