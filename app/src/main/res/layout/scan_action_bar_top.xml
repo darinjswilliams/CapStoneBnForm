@@ -17,7 +17,7 @@
         android:layout_gravity="start"
         android:padding="@dimen/top_action_button_padding"
         android:contentDescription="@string/cd_close_button"
-        app:srcCompat="@drawable/cancel_btn"/>
+        app:navigationIcon="@drawable/cancel_btn"/>
 
     <ImageView
         android:id="@+id/settings_button"

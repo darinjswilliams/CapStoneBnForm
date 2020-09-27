@@ -17,7 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -64,6 +63,8 @@ public class BarcodeResultFragment extends BottomSheetDialogFragment {
         fieldRecyclerView.setHasFixedSize(true);
         fieldRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         fieldRecyclerView.setAdapter(new BarcodeFieldAdapter(barcodeFieldList));
+
+        //TODO call rapid api to get more data
 
         return view;
     }

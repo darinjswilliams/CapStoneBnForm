@@ -2,6 +2,7 @@ package com.dw.capstonebnform.view.fragments;
 
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -78,14 +79,13 @@ public class LiveScanFragment extends Fragment implements View.OnClickListener {
 
         mFragmentLiveScanBinding.cameraPreviewGraphicOverlay.setOnClickListener(this);
 
-        mGgraphicOverlay  = mFragmentLiveScanBinding.cameraPreviewGraphicOverlay;
-        mGgraphicOverlay.setOnClickListener(this::onClick);
+        mFragmentLiveScanBinding.cameraPreviewGraphicOverlay.setOnClickListener(this::onClick);
+
         mCameraSource = new CameraSource(mFragmentLiveScanBinding.cameraPreviewGraphicOverlay);
 
         mPromptChipAnimator =
                 (AnimatorSet) AnimatorInflater.loadAnimator(getContext(), R.animator.bottom_prompt_chip_enter);
         mPromptChipAnimator.setTarget( mFragmentLiveScanBinding.bottomPromptChip);
-
 
         mFragmentLiveScanBinding.scanActionBarTop.closeButton.setOnClickListener(this::onClick);
 
@@ -105,9 +105,11 @@ public class LiveScanFragment extends Fragment implements View.OnClickListener {
                 if (mFragmentLiveScanBinding.scanActionBarTop.flashButton.isSelected()) {
                     mFragmentLiveScanBinding.scanActionBarTop.flashButton.setSelected(false);
                     //TODO UDPATE FLASHMODEL to off
+                    mCameraSource.updateFlashMode(Camera.Parameters.FLASH_MODE_OFF);
                 } else {
                     mFragmentLiveScanBinding.scanActionBarTop.flashButton.setSelected(true);
                     //TODO UDPATE FLASHMODEL to on
+                    mCameraSource.updateFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
                 }
 
                 break;
@@ -219,7 +221,7 @@ public class LiveScanFragment extends Fragment implements View.OnClickListener {
         mWorkflowModel.markCameraFrozen();
         mFragmentLiveScanBinding.scanActionBarTop.settingsButton.setEnabled(true);
         mWorkflowState = WorkflowState.NOT_STARTED;
-        mCameraSource.setFrameProcessor(new BarcodeScannerProcessor(mGgraphicOverlay, mWorkflowModel));
+        mCameraSource.setFrameProcessor(new BarcodeScannerProcessor(mFragmentLiveScanBinding.cameraPreviewGraphicOverlay, mWorkflowModel));
         mWorkflowModel.setWorkflowState(WorkflowState.DETECTING);
     }
 
