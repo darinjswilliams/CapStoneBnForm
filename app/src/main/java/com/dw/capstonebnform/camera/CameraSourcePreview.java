@@ -1,37 +1,35 @@
 package com.dw.capstonebnform.camera;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.ViewGroup;
+import android.view.View;
+import android.widget.FrameLayout;
 
+import com.dw.capstonebnform.R;
+import com.dw.capstonebnform.scanning.utils.Utils;
 import com.google.android.gms.common.images.Size;
-
 
 import java.io.IOException;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresPermission;
 
-public class CameraSourcePreview extends ViewGroup {
+public class CameraSourcePreview extends FrameLayout {
     private static final String TAG = CameraSourcePreview.class.getSimpleName();
 
     private GraphicOverlay mGraphicOverLay;
     private Context mContext;
     private SurfaceView mSurfaceView;
-    private boolean mStartRequested;
-    private boolean mSurfaceAvailable;
+    private boolean mStartRequested = false;
+    private boolean mSurfaceAvailable = false;
     private CameraSource mCameraSource;
+    private Size mCameraPreviewSize;
 
     public CameraSourcePreview(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.mContext  = context;
-        this.mSurfaceAvailable = false;
-        this.mStartRequested = false;
         this.mSurfaceView = new SurfaceView(context);
 
         //Extracted to Class
@@ -39,69 +37,88 @@ public class CameraSourcePreview extends ViewGroup {
        addView(mSurfaceView);
     }
 
-    @RequiresPermission(Manifest.permission.CAMERA)
-    public void startCamera(CameraSource cameraSource) throws IOException, SecurityException{
-
-        if(cameraSource.equals(null)){
-            stopCamera();
-        }
-
-        mCameraSource = cameraSource;
-
-        if(mCameraSource != null){
-            mStartRequested = true;
-            checkToSeeIfCameraIsReady();
-        }
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+        mGraphicOverLay = findViewById(R.id.camera_preview_graphic_overlay);
     }
 
-    @RequiresPermission(Manifest.permission.CAMERA)
-    public void startCamera(CameraSource cameraSource, GraphicOverlay graphicOverlay) throws IOException, SecurityException {
-        mGraphicOverLay = graphicOverlay;
-        startCamera(cameraSource);
-    }
 
+    public void start(CameraSource cameraSource) throws IOException{
+        this.mCameraSource = cameraSource;
+        mStartRequested = true;
+        checkToSeeIfCameraIsReady();
+    }
 
     public void stopCamera() {
         if(mCameraSource != null){
             mCameraSource.stop();
-        }
-    }
-
-    public void releaseCamera(){
-        if(mCameraSource != null){
-            mCameraSource.release();
             mCameraSource = null;
+            mStartRequested = false;
         }
-        mSurfaceView.getHolder().getSurface().release();
     }
 
-    @RequiresPermission(Manifest.permission.CAMERA)
     private void checkToSeeIfCameraIsReady() throws IOException {
         if(mStartRequested && mSurfaceAvailable) {
            mCameraSource.start(mSurfaceView.getHolder());
 
            if(mGraphicOverLay != null){
-               Size size = mCameraSource.getPreviewSize();
-               int min = Math.min(size.getWidth(), size.getHeight());
-               int max = Math.max(size.getWidth(), size.getHeight());
-               if (determineOrientation()) {
-                   mGraphicOverLay.setCameraInfo(min, max, mCameraSource.getCameraFacing());
-               } else {
-                   mGraphicOverLay.setCameraInfo(max, min, mCameraSource.getCameraFacing());
+                 mGraphicOverLay.setCameraInfo(mCameraSource);
+                 mGraphicOverLay.clear();
                }
-                mGraphicOverLay.clear();
+            mStartRequested = false;
            }
-           mStartRequested = false;
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        int width = right - left;
+        int height = bottom - top;
+
+        if(mCameraSource != null && mCameraSource.getPreviewSize() != null){
+            mCameraPreviewSize = mCameraSource.getPreviewSize();
+        }
+
+        float previewAspectRatio = (float) width / height;
+
+        if (mCameraPreviewSize != null) {
+            if (Utils.isPortraitMode(getContext())) {
+                previewAspectRatio = (float) mCameraPreviewSize.getHeight() / mCameraPreviewSize.getWidth();
+            } else {
+                previewAspectRatio = (float) mCameraPreviewSize.getWidth() / mCameraPreviewSize.getHeight();
+            }
+        }
+
+
+        int childWidth = width;
+        int childHeight = (int) (childWidth / previewAspectRatio);
+        if(childHeight <= height){
+            for(int i = 0; i < getChildCount(); ++i){
+                getChildAt(i).layout(0,0,childWidth, childHeight);
+            }
+
+        } else {
+
+            int excessLenInHalf = (childHeight - height) / 2;
+            for (int i = 0; i < getChildCount(); ++i) {
+
+                View childView = getChildAt(i);
+                if (childView.getId() == R.id.static_overlay_container) {
+                    childView.layout(0, 0, childWidth, childHeight);
+                } else {
+                    childView.layout(0, -excessLenInHalf, childWidth, height + excessLenInHalf);
+                }
+            }
+        }
+
+        try {
+            checkToSeeIfCameraIsReady();
+        } catch (SecurityException sec) {
+            Log.e(TAG, "onLayout: SecurityException...do not have permission.. ", sec);
+        }catch (IOException ioe) {
+            Log.e(TAG, "onLayout: IOEception...camera could not start", ioe );
         }
     }
-
-    private boolean determineOrientation(){
-        int orientation = mContext.getResources().getConfiguration().orientation;
-        Log.d(TAG, "determineOrientation: Is phone Orientation LandScape..." + orientation);
-
-       return orientation == Configuration.ORIENTATION_LANDSCAPE ? false : true;
-    }
-
 
     private class SurfaceCallback implements  SurfaceHolder.Callback {
 
@@ -129,52 +146,5 @@ public class CameraSourcePreview extends ViewGroup {
             mSurfaceAvailable = false;
         }
     }
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        int width = 320;
-        int height = 240;
 
-        if(mCameraSource != null){
-            Size size = mCameraSource.getPreviewSize();
-
-            if(size != null){
-                width = size.getWidth();
-                height = size.getHeight();
-            }
-        }
-
-        //determine orientation
-        if(determineOrientation()){
-            int temp = width;
-            width = height;
-            height = temp;
-        }
-
-
-        float previewAspectRatio = (float) width / height;
-        int layoutWidth = right - left;
-        int layoutHeight = bottom - top;
-        float layoutAspectRatio = (float) layoutWidth / layoutHeight;
-        if (previewAspectRatio > layoutAspectRatio) {
-            // The preview input is wider than the layout area. Fit the layout height and crop
-            // the preview input horizontally while keep the center.
-            int horizontalOffset = (int) (previewAspectRatio * layoutHeight - layoutWidth) / 2;
-            mSurfaceView.layout(-horizontalOffset, 0, layoutWidth + horizontalOffset, layoutHeight);
-        } else {
-            // The preview input is taller than the layout area. Fit the layout width and crop the preview
-            // input vertically while keep the center.
-            int verticalOffset = (int) (layoutWidth / previewAspectRatio - layoutHeight) / 2;
-            mSurfaceView.layout(0, -verticalOffset, layoutWidth, layoutHeight + verticalOffset);
-        }
-
-        try {
-            checkToSeeIfCameraIsReady();
-        } catch (SecurityException sec) {
-            Log.e(TAG, "onLayout: SecurityException...do not have permission.. ", sec);
-        }catch (IOException ioe) {
-            Log.e(TAG, "onLayout: IOEception...camera could not start", ioe );
-        }
-
-
-    }
 }

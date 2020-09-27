@@ -92,9 +92,11 @@ public class LowAlertAdapter extends RecyclerView.Adapter<LowAlertAdapter.LowAle
                 mLowAlertItemsBinding.descriptionLowAlertItemText.setText(recallItems.recall.getMDescription());
                 mLowAlertItemsBinding.titleLowAlertItemTxt.setText(recallItems.recall.getMTitle());
 
-                Picasso.get()
-                        .load(recallItems.imagesList.get(0).getUrl())
-                        .into(mLowAlertItemsBinding.imageViewLowAlertItemImage);
+                if(recallItems.imagesList.get(0).getUrl().length() != 0) {
+                    Picasso.get()
+                            .load(recallItems.imagesList.get(0).getUrl())
+                            .into(mLowAlertItemsBinding.imageViewLowAlertItemImage);
+                }
 
         }
 

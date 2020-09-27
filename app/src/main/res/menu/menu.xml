@@ -18,7 +18,7 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/scanFragment"
+        android:id="@+id/liveScanFragment"
         android:checkable="true"
         android:icon="@drawable/icon_mdpi"
         android:title="@string/scan_icon_menu"

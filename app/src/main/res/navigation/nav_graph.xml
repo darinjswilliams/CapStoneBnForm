@@ -48,15 +48,6 @@
             app:destination="@id/recallDetailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/scanFragment"
-        android:name="com.dw.capstonebnform.view.fragments.ScanFragment"
-        android:label="fragment_scan"
-        tools:layout="@layout/fragment_scan" >
-        <action
-            android:id="@+id/action_scanFragment_to_liveScanFragment"
-            app:destination="@id/liveScanFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/recallDetailFragment"
         android:name="com.dw.capstonebnform.view.fragments.RecallDetailFragment"
         android:label="fragment_recall_detail"
@@ -66,13 +57,5 @@
         android:name="com.dw.capstonebnform.view.fragments.LiveScanFragment"
         android:label="fragment_live_scan"
         tools:layout="@layout/fragment_live_scan" >
-        <argument
-            android:name="autofocus"
-            app:argType="boolean"
-            android:defaultValue="false" />
-        <argument
-            android:name="useFlash"
-            app:argType="boolean"
-            android:defaultValue="false" />
     </fragment>
 </navigation>

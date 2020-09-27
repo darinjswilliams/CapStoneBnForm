@@ -124,4 +124,6 @@ public class MainActivity extends AppCompatActivity {
         //Handle the UP Arrow
         return NavigationUI.navigateUp(navController, appBarConfiguration);
     }
+
+
 }

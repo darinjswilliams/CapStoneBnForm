@@ -44,7 +44,7 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
@@ -87,7 +87,8 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
     //MachineLearning Kit
-    implementation "com.google.mlkit:barcode-scanning:$mlkit_version"
+    implementation "com.google.firebase:firebase-ml-vision:$mlkit_version"
+    implementation "com.google.firebase:firebase-ml-vision-object-detection-model:$detection_version"
 
     //Firebase Analytics
     implementation "com.google.firebase:firebase-analytics:$analytics_version"
@@ -97,5 +98,11 @@ dependencies {
 
     //Guava
     implementation 'com.google.guava:guava:24.1-jre'
+
+    //Preference
+    implementation "androidx.preference:preference:$preference_version"
+
+    //Volley
+    implementation "com.android.volley:volley:$volley_version"
 
 }
