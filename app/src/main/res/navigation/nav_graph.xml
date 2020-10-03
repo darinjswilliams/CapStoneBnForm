@@ -3,42 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/alertInfoFragment">
+    app:startDestination="@id/lowAlertFragment">
 
-    <fragment
-        android:id="@+id/alertInfoFragment"
-        android:name="com.dw.capstonebnform.view.fragments.AlertInfoFragment"
-        android:label="fragment_alert_info"
-        tools:layout="@layout/fragment_alert_info" >
-        <action
-            android:id="@+id/action_alertInfoFragment_to_lowAlertFragment2"
-            app:destination="@id/lowAlertFragment" />
-        <action
-            android:id="@+id/action_alertInfoFragment_to_highAlertFragment"
-            app:destination="@id/highAlertFragment" />
-        <action
-            android:id="@+id/action_alertInfoFragment_to_moderateAlertFragment"
-            app:destination="@id/moderateAlertFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/highAlertFragment"
-        android:name="com.dw.capstonebnform.view.fragments.HighAlertFragment"
-        android:label="fragment_high_alert"
-        tools:layout="@layout/fragment_high_alert" >
-        <action
-            android:id="@+id/action_highAlertFragment_to_recallDetailFragment"
-            app:destination="@id/recallDetailFragment_dest" />
-    </fragment>
-    <fragment
-        android:id="@+id/moderateAlertFragment"
-        android:name="com.dw.capstonebnform.view.fragments.ModerateAlertFragment"
-        android:label="fragment_moderate_alert"
-        tools:layout="@layout/fragment_moderate_alert" >
-        <action
-            android:id="@+id/action_moderateAlertFragment_to_recallDetailFragment"
-            app:destination="@id/recallDetailFragment_dest" />
-    </fragment>
-    <fragment
+     <fragment
         android:id="@+id/lowAlertFragment"
         android:name="com.dw.capstonebnform.view.fragments.LowAlertFragment"
         android:label="fragment_low_alert"

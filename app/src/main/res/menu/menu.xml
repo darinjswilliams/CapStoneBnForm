@@ -3,19 +3,12 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/alertInfoFragment"
+        android:id="@+id/lowAlertFragment"
         android:orderInCategory="1"
         android:title="@string/alerts"
         android:visible="true"
         app:showAsAction="never" />
 
-
-    <item
-        android:id="@+id/menu_history_id"
-        android:title="@string/history"
-        android:orderInCategory="2"
-        android:visible="true"
-        app:showAsAction="never" />
 
     <item
         android:id="@+id/liveScanFragment"

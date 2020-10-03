@@ -93,8 +93,6 @@ public class LowAlertFragment extends Fragment {
                 LowAlertFragmentDirections.actionLowAlertFragmentToRecallDetailFragment();
 
 
-
-
         action.setRecallNumber(rProduct.recall.getRecallNumber());
 
         navController.navigate(action);
