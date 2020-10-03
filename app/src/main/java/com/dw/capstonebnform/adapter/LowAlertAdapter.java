@@ -3,7 +3,6 @@ package com.dw.capstonebnform.adapter;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.dw.capstonebnform.R;
@@ -12,7 +11,6 @@ import com.dw.capstonebnform.dto.RecallWithInjuriesAndImagesAndProducts;
 import com.dw.capstonebnform.utils.Constants;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -21,22 +19,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class LowAlertAdapter extends RecyclerView.Adapter<LowAlertAdapter.LowAlertHolder> {
 
-    private OnItemClickListener onItemClickListener;
-    private List<RecallWithInjuriesAndImagesAndProducts>  mRecallWithInjuriesAndImagesAndProducts = new ArrayList<>();
+//    final private LowAlertAdapterClickListner mOnItemClickListener;
+    private List<RecallWithInjuriesAndImagesAndProducts>  mRecallWithInjuriesAndImagesAndProducts;
     private Context mContext;
     public static final String DATE_INPUT_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static final String DATE_OUTPUT_FORMAT = "MM/dd/yyyy";
 
+    private final ItemClickListener<RecallWithInjuriesAndImagesAndProducts> mListener;
+
     private static final String TAG = LowAlertAdapter.class.getSimpleName();
 
 
-    public LowAlertAdapter(OnItemClickListener onItemClickListener){
-        this.onItemClickListener = onItemClickListener;
+    public LowAlertAdapter(ItemClickListener<RecallWithInjuriesAndImagesAndProducts> mListener){
+//        this.mOnItemClickListener = onItemClickListener;
+
+        this.mListener = mListener;
     }
 
-    public interface OnItemClickListener {
-        void onClick(RecallWithInjuriesAndImagesAndProducts mRecallWithInjuriesAndImagesAndProducts);
-    }
+//    public interface LowAlertAdapterClickListner {
+//        void onClick(RecallWithInjuriesAndImagesAndProducts mRecallWithInjuriesAndImagesAndProducts);
+//    }
 
 
     @NonNull
@@ -63,7 +65,7 @@ public class LowAlertAdapter extends RecyclerView.Adapter<LowAlertAdapter.LowAle
 
     @Override
     public int getItemCount() {
-        Log.i(TAG, "getItemCount: returning" + mRecallWithInjuriesAndImagesAndProducts.size());
+//        Log.i(TAG, "getItemCount: returning" + mRecallWithInjuriesAndImagesAndProducts.size());
         return mRecallWithInjuriesAndImagesAndProducts != null ? mRecallWithInjuriesAndImagesAndProducts.size() : Constants.EMPTY_RECALL_LIST;
     }
 
@@ -73,7 +75,7 @@ public class LowAlertAdapter extends RecyclerView.Adapter<LowAlertAdapter.LowAle
         notifyDataSetChanged();
     }
 
-    public class LowAlertHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class LowAlertHolder extends RecyclerView.ViewHolder{
 
         LowAlertItemsBinding mLowAlertItemsBinding;
 
@@ -81,6 +83,10 @@ public class LowAlertAdapter extends RecyclerView.Adapter<LowAlertAdapter.LowAle
             super(lowAlertItemsBinding.getRoot());
 
             this.mLowAlertItemsBinding = lowAlertItemsBinding;
+
+
+//            mLowAlertItemsBinding.imageViewLowAlertItemImage.setOnClickListener(this);
+//              this.mLowAlertItemsBinding.getRoot().setOnClickListener(this::onClick);
         }
 
         public void bind(RecallWithInjuriesAndImagesAndProducts recallItems){
@@ -98,11 +104,38 @@ public class LowAlertAdapter extends RecyclerView.Adapter<LowAlertAdapter.LowAle
                             .into(mLowAlertItemsBinding.imageViewLowAlertItemImage);
                 }
 
+
+            mLowAlertItemsBinding.imageViewLowAlertItemImage.setOnClickListener(
+                    v -> mListener.onClick(recallItems));
+
+
         }
 
-        @Override
-        public void onClick(View view) {
-            Log.i(TAG, "onClick: ");
-        }
+
+//        @Override
+//        public void onClick(View view) {
+//            int index = getLayoutPosition();
+//            RecallWithInjuriesAndImagesAndProducts mRecallProducts = mRecallWithInjuriesAndImagesAndProducts.get(index);
+////            mOnItemClickListener.onClick(mRecallProducts);
+//            Log.i(TAG, "LowAlertAdapter : onClick: " + mRecallProducts.recall.getRecallNumber());
+//
+//
+//            NavController navController = Navigation.findNavController(view);
+//
+//            if(navController.getCurrentDestination().getId() == R.id.action_lowAlertFragment_to_recallDetailFragment){
+//                Log.i(TAG, "onClick: Correct Required Destination: " + navController.getCurrentDestination().getId());
+//            } else {
+//                Log.i(TAG, "onClick: Incorrect Destination: where I am going " + navController.getCurrentDestination().getDisplayName());
+//
+//            }
+//
+//            LowAlertFragmentDirections.ActionLowAlertFragmentToRecallDetailFragment action =
+//                    LowAlertFragmentDirections.actionLowAlertFragmentToRecallDetailFragment();
+//
+//            action.setRecallNumber(mRecallProducts.recall.getRecallNumber());
+//
+//            navController.navigate(action);
+//
+//        }
     }
 }

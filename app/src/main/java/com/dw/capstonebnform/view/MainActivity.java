@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         setupNavigation();
     }
 
+
+
     private void setupNavigation() {
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_container);
 
@@ -73,29 +75,6 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.closeDrawers();
 
         Context context = MainActivity.this;
-
-//        int itemThatWasClickedid = item.getItemId();
-//
-//        switch (itemThatWasClickedid){
-//            case R.id.menu_alerts_id:
-//
-//                Toast.makeText(context, "Aierts Clicked", Toast.LENGTH_LONG).show();
-//
-//                return true;
-//
-//            case R.id.menu_history_id:
-//
-//                Toast.makeText(context, "History Clicked", Toast.LENGTH_LONG).show();
-//                return true;
-//
-//            case R.id.scan_menu_id:
-//
-//                Toast.makeText(context, "Scan Clicked", Toast.LENGTH_LONG).show();
-//                NavigationUI.onNavDestinationSelected(item , navController);
-//                return true;
-//
-//        }
-
 
         return NavigationUI.onNavDestinationSelected(item, navController)
                 || super.onOptionsItemSelected(item);

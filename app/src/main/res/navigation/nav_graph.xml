@@ -27,7 +27,7 @@
         tools:layout="@layout/fragment_high_alert" >
         <action
             android:id="@+id/action_highAlertFragment_to_recallDetailFragment"
-            app:destination="@id/recallDetailFragment" />
+            app:destination="@id/recallDetailFragment_dest" />
     </fragment>
     <fragment
         android:id="@+id/moderateAlertFragment"
@@ -36,7 +36,7 @@
         tools:layout="@layout/fragment_moderate_alert" >
         <action
             android:id="@+id/action_moderateAlertFragment_to_recallDetailFragment"
-            app:destination="@id/recallDetailFragment" />
+            app:destination="@id/recallDetailFragment_dest" />
     </fragment>
     <fragment
         android:id="@+id/lowAlertFragment"
@@ -45,13 +45,18 @@
         tools:layout="@layout/fragment_low_alert" >
         <action
             android:id="@+id/action_lowAlertFragment_to_recallDetailFragment"
-            app:destination="@id/recallDetailFragment" />
+            app:destination="@id/recallDetailFragment_dest" />
     </fragment>
     <fragment
-        android:id="@+id/recallDetailFragment"
+        android:id="@+id/recallDetailFragment_dest"
         android:name="com.dw.capstonebnform.view.fragments.RecallDetailFragment"
         android:label="fragment_recall_detail"
-        tools:layout="@layout/fragment_recall_detail" />
+        tools:layout="@layout/fragment_recall_detail" >
+        <argument
+            android:name="recallNumber"
+            app:argType="string"
+            android:defaultValue="default" />
+    </fragment>
     <fragment
         android:id="@+id/liveScanFragment"
         android:name="com.dw.capstonebnform.view.fragments.LiveScanFragment"
