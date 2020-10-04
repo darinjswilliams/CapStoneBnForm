@@ -79,4 +79,6 @@
     <string name="recall_label">Recall Number</string>
     <string name="units_sold_label">Items Sold:</string>
     <string name="recall_image">Recall Image</string>
+    <string name="recall_details">Product Details</string>
+    <string name="live_scan">Scan Product</string>
 </resources>

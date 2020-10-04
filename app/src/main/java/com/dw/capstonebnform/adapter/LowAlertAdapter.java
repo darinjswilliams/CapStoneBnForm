@@ -11,6 +11,7 @@ import com.dw.capstonebnform.dto.RecallWithInjuriesAndImagesAndProducts;
 import com.dw.capstonebnform.utils.Constants;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -60,12 +61,15 @@ public class LowAlertAdapter extends RecyclerView.Adapter<LowAlertAdapter.LowAle
         Log.i(TAG, "onBindViewHolder: position 0.." + mRecallWithInjuriesAndImagesAndProducts.get(position).recall.getMTitle());
 
         //get positon of recall product
-        holder.bind(mRecallWithInjuriesAndImagesAndProducts.get(position));
+        try {
+            holder.bind(mRecallWithInjuriesAndImagesAndProducts.get(position));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public int getItemCount() {
-//        Log.i(TAG, "getItemCount: returning" + mRecallWithInjuriesAndImagesAndProducts.size());
         return mRecallWithInjuriesAndImagesAndProducts != null ? mRecallWithInjuriesAndImagesAndProducts.size() : Constants.EMPTY_RECALL_LIST;
     }
 
@@ -89,12 +93,12 @@ public class LowAlertAdapter extends RecyclerView.Adapter<LowAlertAdapter.LowAle
 //              this.mLowAlertItemsBinding.getRoot().setOnClickListener(this::onClick);
         }
 
-        public void bind(RecallWithInjuriesAndImagesAndProducts recallItems){
+        public void bind(RecallWithInjuriesAndImagesAndProducts recallItems) throws ParseException {
             Log.i(TAG, "bind: ");
 
                 //format Date
 //                String mRecallDate = DateUtils.formatDateFromDateString(DATE_INPUT_FORMAT, DATE_OUTPUT_FORMAT, recallItems.recall.getMRecallDate());
-                mLowAlertItemsBinding.dateIdLowAlertItemTxt.setText(recallItems.recall.getMRecallDate());
+                mLowAlertItemsBinding.dateIdLowAlertItemTxt.setText( recallItems.recall.getMRecallDate());
                 mLowAlertItemsBinding.descriptionLowAlertItemText.setText(recallItems.recall.getMDescription());
                 mLowAlertItemsBinding.titleLowAlertItemTxt.setText(recallItems.recall.getMTitle());
 
@@ -111,31 +115,5 @@ public class LowAlertAdapter extends RecyclerView.Adapter<LowAlertAdapter.LowAle
 
         }
 
-
-//        @Override
-//        public void onClick(View view) {
-//            int index = getLayoutPosition();
-//            RecallWithInjuriesAndImagesAndProducts mRecallProducts = mRecallWithInjuriesAndImagesAndProducts.get(index);
-////            mOnItemClickListener.onClick(mRecallProducts);
-//            Log.i(TAG, "LowAlertAdapter : onClick: " + mRecallProducts.recall.getRecallNumber());
-//
-//
-//            NavController navController = Navigation.findNavController(view);
-//
-//            if(navController.getCurrentDestination().getId() == R.id.action_lowAlertFragment_to_recallDetailFragment){
-//                Log.i(TAG, "onClick: Correct Required Destination: " + navController.getCurrentDestination().getId());
-//            } else {
-//                Log.i(TAG, "onClick: Incorrect Destination: where I am going " + navController.getCurrentDestination().getDisplayName());
-//
-//            }
-//
-//            LowAlertFragmentDirections.ActionLowAlertFragmentToRecallDetailFragment action =
-//                    LowAlertFragmentDirections.actionLowAlertFragmentToRecallDetailFragment();
-//
-//            action.setRecallNumber(mRecallProducts.recall.getRecallNumber());
-//
-//            navController.navigate(action);
-//
-//        }
     }
 }

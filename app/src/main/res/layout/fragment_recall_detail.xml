@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".view.fragments.RecallDetailFragment">
+    <!-- TODO: Update blank fragment layout -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -12,21 +18,20 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent">
 
-
-        <!-- TODO: Update blank fragment layout -->
-
         <ImageView
             android:id="@+id/image_detail_id"
-            android:layout_width="137dp"
-            android:layout_height="146dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="141dp"
+            android:layout_height="173dp"
+            android:layout_marginTop="8dp"
             android:contentDescription="@string/recall_image"
             app:layout_constraintBottom_toTopOf="@+id/guideline10"
             app:layout_constraintEnd_toStartOf="@+id/guideline8"
-            app:layout_constraintHorizontal_bias="0.522"
+            app:layout_constraintHorizontal_bias="0.545"
             app:layout_constraintStart_toStartOf="@+id/guideline7"
             app:layout_constraintTop_toTopOf="@+id/guideline6"
             app:layout_constraintVertical_bias="0.0" />
+
+
 
         <TextView
             android:id="@+id/description_id"
@@ -77,47 +82,50 @@
 
         <TextView
             android:id="@+id/recall_label"
-            android:layout_width="138dp"
-            android:layout_height="33dp"
+            android:layout_width="145dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="24dp"
             android:text="@string/recall_label"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.384"
-            app:layout_constraintStart_toStartOf="@+id/guideline8"
-            app:layout_constraintTop_toTopOf="@+id/guideline6" />
-
-        <TextView
-            android:id="@+id/recall_id"
-            android:layout_width="134dp"
-            android:layout_height="43dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline9"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline8"
-            app:layout_constraintTop_toBottomOf="@+id/recall_label" />
+            app:layout_constraintEnd_toStartOf="@+id/guideline8"
+            app:layout_constraintHorizontal_bias="0.357"
+            app:layout_constraintStart_toStartOf="@+id/guideline7"
+            app:layout_constraintTop_toBottomOf="@+id/unit_sold_label" />
 
         <TextView
             android:id="@+id/unit_sold_label"
-            android:layout_width="136dp"
-            android:layout_height="41dp"
+            android:layout_width="147dp"
+            android:layout_height="49dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="@string/units_sold_label"
+            app:layout_constraintEnd_toStartOf="@+id/guideline8"
+            app:layout_constraintHorizontal_bias="0.437"
             app:layout_constraintStart_toStartOf="@+id/guideline7"
             app:layout_constraintTop_toTopOf="@+id/guideline10" />
 
         <TextView
             android:id="@+id/unit_sold_id"
-            android:layout_width="153dp"
-            android:layout_height="34dp"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="164dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline9"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/unit_sold_label"
+            app:layout_constraintHorizontal_bias="0.257"
+            app:layout_constraintStart_toStartOf="@+id/guideline8"
             app:layout_constraintTop_toTopOf="@+id/guideline10" />
 
+        <TextView
+            android:id="@+id/recall_id"
+            android:layout_width="164dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline9"
+            app:layout_constraintHorizontal_bias="0.23"
+            app:layout_constraintStart_toStartOf="@+id/guideline8"
+            app:layout_constraintTop_toBottomOf="@+id/unit_sold_id" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

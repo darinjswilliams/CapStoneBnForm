@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 
 import com.dw.capstonebnform.R;
 import com.dw.capstonebnform.databinding.FragmentRecallDetailBinding;
+import com.dw.capstonebnform.dto.RecallWithInjuriesAndImagesAndProducts;
+import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +22,8 @@ public class RecallDetailFragment extends Fragment {
     private final static String TAG = RecallDetailFragment.class.getSimpleName();
     FragmentRecallDetailBinding mfragmentRecallDetailBinding;
     private String recallNumber;
+    RecallWithInjuriesAndImagesAndProducts rProduct;
+
 
     public RecallDetailFragment() {
         // Required empty public constructor
@@ -48,8 +52,19 @@ public class RecallDetailFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         if(getArguments() != null) {
-            recallNumber = RecallDetailFragmentArgs.fromBundle(getArguments()).getRecallNumber();
-            Log.i(TAG, "onViewCreated: " + recallNumber);
+            rProduct = RecallDetailFragmentArgs.fromBundle(getArguments()).getRProduct();
+            Log.i(TAG, "onViewCreated: " + rProduct.recall.getRecallNumber());
+
+            mfragmentRecallDetailBinding.recallId.setText(rProduct.recall.getRecallNumber());
+            mfragmentRecallDetailBinding.descriptionId.setText(rProduct.recall.getMDescription());
+            mfragmentRecallDetailBinding.unitSoldId.setText(rProduct.productList.get(0).getNumberOfUnits());
+
+            if(rProduct.imagesList.get(0).getUrl() != null){
+                Picasso.get()
+                        .load(rProduct.imagesList.get(0).getUrl())
+                        .into(mfragmentRecallDetailBinding.imageDetailId);
+
+            }
         }
     }
 }

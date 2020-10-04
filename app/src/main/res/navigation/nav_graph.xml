@@ -8,7 +8,7 @@
      <fragment
         android:id="@+id/lowAlertFragment"
         android:name="com.dw.capstonebnform.view.fragments.LowAlertFragment"
-        android:label="fragment_low_alert"
+        android:label="@string/low_alert"
         tools:layout="@layout/fragment_low_alert" >
         <action
             android:id="@+id/action_lowAlertFragment_to_recallDetailFragment"
@@ -17,17 +17,17 @@
     <fragment
         android:id="@+id/recallDetailFragment_dest"
         android:name="com.dw.capstonebnform.view.fragments.RecallDetailFragment"
-        android:label="fragment_recall_detail"
+        android:label="@string/recall_details"
         tools:layout="@layout/fragment_recall_detail" >
         <argument
-            android:name="recallNumber"
-            app:argType="string"
-            android:defaultValue="default" />
+            android:name="rProduct"
+            app:argType="com.dw.capstonebnform.dto.RecallWithInjuriesAndImagesAndProducts"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/liveScanFragment"
         android:name="com.dw.capstonebnform.view.fragments.LiveScanFragment"
-        android:label="fragment_live_scan"
+        android:label="@string/live_scan"
         tools:layout="@layout/fragment_live_scan" >
     </fragment>
 </navigation>

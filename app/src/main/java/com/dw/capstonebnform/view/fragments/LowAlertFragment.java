@@ -88,12 +88,16 @@ public class LowAlertFragment extends Fragment {
 
     private void onClickAlert(RecallWithInjuriesAndImagesAndProducts rProduct) {
 
+        Log.i(TAG, "onClickAlert: Products " + rProduct.productList.get(0).getNumberOfUnits());
+        Log.i(TAG, "onClickAlert: Images " + rProduct.imagesList.get(0).getUrl());
+        Log.i(TAG, "onClickAlert: Recall Number " + rProduct.injuriesList.get(0).getName());
 
         LowAlertFragmentDirections.ActionLowAlertFragmentToRecallDetailFragment action =
-                LowAlertFragmentDirections.actionLowAlertFragmentToRecallDetailFragment();
+                LowAlertFragmentDirections.actionLowAlertFragmentToRecallDetailFragment(rProduct);
 
 
-        action.setRecallNumber(rProduct.recall.getRecallNumber());
+        action.setRProduct(rProduct);
+
 
         navController.navigate(action);
     }
@@ -113,21 +117,6 @@ public class LowAlertFragment extends Fragment {
 
 
     }
-
-//    @Override
-//    public void onClick(RecallWithInjuriesAndImagesAndProducts mRecallWithInjuriesAndImagesAndProducts) {
-//        Log.i(TAG, "LowAlertFragment : onClick: ");
-//        String toastMessage = "Item # " + mRecallWithInjuriesAndImagesAndProducts.recall.getRecallNumber() + "Clicked";
-//        Toast.makeText(getContext(), toastMessage, Toast.LENGTH_SHORT).show();
-//
-////            LowAlertFragmentDirections.ActionLowAlertFragmentToRecallDetailFragment action =
-////                    LowAlertFragmentDirections.actionLowAlertFragmentToRecallDetailFragment();
-////
-////            action.setRecallNumber(mRecallWithInjuriesAndImagesAndProducts.recall.getRecallNumber());
-////
-////            navController.navigate(action);
-//
-//    }
 
     @Override
     public void onDestroy() {
