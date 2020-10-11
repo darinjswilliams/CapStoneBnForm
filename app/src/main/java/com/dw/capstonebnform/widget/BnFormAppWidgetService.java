@@ -80,9 +80,6 @@ public class BnFormAppWidgetService extends RemoteViewsService {
             }.getType();
             mRecallArray = gson.fromJson(json, type);
 
-//            sb.append(recallNumber);
-//            sb.append(getRecallCount());
-//            sb.append(recallName);
 
             ListIterator<Product> recallListIterator = mRecallArray.listIterator();
             while (recallListIterator.hasNext()) {
