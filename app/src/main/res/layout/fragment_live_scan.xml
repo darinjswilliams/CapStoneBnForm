@@ -65,6 +65,7 @@
             android:textSize="@dimen/search_button_text_size"
             android:visibility="gone"
             app:icon="@drawable/ic_image_search"
+            android:hint="@string/click_to_share"
             app:iconTint="@color/black"/>
     </FrameLayout>
 

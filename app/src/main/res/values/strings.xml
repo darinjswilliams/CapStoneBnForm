@@ -57,7 +57,6 @@
     <string name="product_search_button">Search Product</string>
 
 
-
     <!-- Strings for barcode detection settings. -->
     <string name="pref_category_barcode_detection">Barcode detection</string>
     <string name="pref_key_barcode_reticle_width" translatable="false">barcode_brw</string>
@@ -81,4 +80,12 @@
     <string name="recall_image">Recall Image</string>
     <string name="recall_details">Product Details</string>
     <string name="live_scan">Scan Product</string>
+    <string name="click_to_share">Share</string>
+    <string name="appwidget_text">Alerts</string>
+    <string name="add_widget">Add widget</string>
+    <string name="no_data_available">No Data Available</string>
+    <string name="recall_number">Recall Number:</string>
+    <string name="recall_last_date_published">Last Date Published:</string>
+    <string name="recall_items">Products</string>
+    <string name="recall_units">Units Sold:</string>
 </resources>
