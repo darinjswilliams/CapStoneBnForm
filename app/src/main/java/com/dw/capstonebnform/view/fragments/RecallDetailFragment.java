@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dw.capstonebnform.R;
+import com.dw.capstonebnform.analytics.Analytics;
 import com.dw.capstonebnform.databinding.FragmentRecallDetailBinding;
 import com.dw.capstonebnform.dto.RecallWithInjuriesAndImagesAndProducts;
 import com.squareup.picasso.Picasso;
@@ -54,6 +55,9 @@ public class RecallDetailFragment extends Fragment {
         if(getArguments() != null) {
             rProduct = RecallDetailFragmentArgs.fromBundle(getArguments()).getRProduct();
             Log.i(TAG, "onViewCreated: " + rProduct.recall.getRecallNumber());
+
+            //Log Analytics
+            Analytics.logEventViewDetail(getContext(), getResources().getString(R.string.viewproduct));
 
             mfragmentRecallDetailBinding.recallId.setText(rProduct.recall.getRecallNumber());
             mfragmentRecallDetailBinding.descriptionId.setText(rProduct.recall.getMDescription());

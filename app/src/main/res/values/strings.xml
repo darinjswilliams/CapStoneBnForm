@@ -88,4 +88,8 @@
     <string name="recall_last_date_published">Last Date Published:</string>
     <string name="recall_items">Products</string>
     <string name="recall_units">Units Sold:</string>
+    <string name="fab_btn_text">Share</string>
+    <string name="shareContent">ShareScreenContent</string>
+    <string name="viewproduct">ViewProductDetail</string>
+    <string name="scanned">ProductScanned</string>
 </resources>

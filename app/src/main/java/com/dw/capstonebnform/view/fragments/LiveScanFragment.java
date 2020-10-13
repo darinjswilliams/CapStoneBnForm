@@ -2,6 +2,7 @@ package com.dw.capstonebnform.view.fragments;
 
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
+import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dw.capstonebnform.R;
+import com.dw.capstonebnform.analytics.Analytics;
 import com.dw.capstonebnform.camera.CameraSource;
 import com.dw.capstonebnform.camera.CameraSourcePreview;
 import com.dw.capstonebnform.camera.GraphicOverlay;
@@ -85,7 +87,7 @@ public class LiveScanFragment extends Fragment implements View.OnClickListener {
 
         mPromptChipAnimator =
                 (AnimatorSet) AnimatorInflater.loadAnimator(getContext(), R.animator.bottom_prompt_chip_enter);
-        mPromptChipAnimator.setTarget( mFragmentLiveScanBinding.bottomPromptChip);
+        mPromptChipAnimator.setTarget(mFragmentLiveScanBinding.bottomPromptChip);
 
         mFragmentLiveScanBinding.scanActionBarTop.closeButton.setOnClickListener(this::onClick);
 
@@ -93,11 +95,16 @@ public class LiveScanFragment extends Fragment implements View.OnClickListener {
 
         mFragmentLiveScanBinding.scanActionBarTop.settingsButton.setOnClickListener(this::onClick);
 
+        mFragmentLiveScanBinding.scanActionBarTop.fabButton.setOnClickListener(this::onClick);
+
+
         setUpWorkflowModel();
     }
 
     @Override
     public void onClick(View view) {
+
+
         switch (view.getId()) {
 
             case R.id.flash_button:
@@ -117,7 +124,6 @@ public class LiveScanFragment extends Fragment implements View.OnClickListener {
             case R.id.close_button:
                 //todo Call onBackPressed
                 Log.i(TAG, "onClick: close button");
-
                 break;
 
             case R.id.settings_button:
@@ -126,22 +132,45 @@ public class LiveScanFragment extends Fragment implements View.OnClickListener {
                 Log.i(TAG, "onClick: setting button");
 
                 break;
+
+            case R.id.fab_button:
+                Log.i(TAG, "onClick: Fab Button Pressed");
+
+//                Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+//                sendIntent.setData(Uri.parse("sms:"));
+//                startActivityForResult(sendIntent , 0);
+
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                Intent chooser = Intent.createChooser(intent, getResources().getString(R.string.app_name));
+//                sendIntent.setData(Uri.parse("sms:"));
+//                startActivityForResult(sendIntent , PICK);
+
+                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    Log.i(TAG, "onClick: choose application");
+                    startActivity(chooser);
+                }
+
+                //Log Analytics sharing screen content
+                Analytics.logEventScanActivity(getContext(), getResources().getString(R.string.shareContent));
+
+                break;
+
         }
 
-    }
 
+    }
 
 
     private void setUpWorkflowModel() {
 
         Log.i(TAG, "setUpWorkflowModel: Setup workflow");
 
-        mWorkflowModel =  new ViewModelProvider(this).get(WorkflowModel.class);
+        mWorkflowModel = new ViewModelProvider(this).get(WorkflowModel.class);
 
         mWorkflowModel.workflowState.observe(
                 getViewLifecycleOwner(),
                 workflowState -> {
-                    if(workflowState == null || Objects.equals(mWorkflowState, workflowState)){
+                    if (workflowState == null || Objects.equals(mWorkflowState, workflowState)) {
                         return;
                     }
                     mWorkflowState = workflowState;
@@ -184,14 +213,18 @@ public class LiveScanFragment extends Fragment implements View.OnClickListener {
         );
 
         mWorkflowModel.detectedBarcode.observe(
+
                 getViewLifecycleOwner(),
                 barcode -> {
                     ArrayList<BarcodeField> barcodeFieldList = new ArrayList<>();
                     barcodeFieldList.add(new BarcodeField("Raw Value", barcode.getRawValue()));
                     BarcodeResultFragment.show(getParentFragmentManager(), barcodeFieldList);
+
+                    //Send Scanned Product Event to Firebase Analytics
+                    Analytics.logEventScanActivity(getContext(), getResources().getString(R.string.scanned));
                 }
         );
-      
+
     }
 
     private void startCameraPreview() {
@@ -240,7 +273,7 @@ public class LiveScanFragment extends Fragment implements View.OnClickListener {
         }
 
 
-        if(getView() != null){
+        if (getView() != null) {
             ViewGroup parent = (ViewGroup) getView().getParent();
             parent.removeAllViews();
         }
