@@ -2,6 +2,7 @@ package com.dw.capstonebnform.view.fragments;
 
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
+import android.app.SearchManager;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ShareCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -52,6 +54,7 @@ public class LiveScanFragment extends Fragment implements View.OnClickListener {
     boolean useFlash = false;
     private View settingsButton;
     private View flashButton;
+    private String gUrl = "http://www.google.com/";
 
 
     public LiveScanFragment() {
@@ -136,23 +139,7 @@ public class LiveScanFragment extends Fragment implements View.OnClickListener {
             case R.id.fab_button:
                 Log.i(TAG, "onClick: Fab Button Pressed");
 
-//                Intent sendIntent = new Intent(Intent.ACTION_VIEW);
-//                sendIntent.setData(Uri.parse("sms:"));
-//                startActivityForResult(sendIntent , 0);
-
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                Intent chooser = Intent.createChooser(intent, getResources().getString(R.string.app_name));
-//                sendIntent.setData(Uri.parse("sms:"));
-//                startActivityForResult(sendIntent , PICK);
-
-                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-                    Log.i(TAG, "onClick: choose application");
-                    startActivity(chooser);
-                }
-
-                //Log Analytics sharing screen content
-                Analytics.logEventScanActivity(getContext(), getResources().getString(R.string.shareContent));
-
+                chooseAppToShareContext();
                 break;
 
         }
@@ -219,7 +206,7 @@ public class LiveScanFragment extends Fragment implements View.OnClickListener {
                     ArrayList<BarcodeField> barcodeFieldList = new ArrayList<>();
                     barcodeFieldList.add(new BarcodeField("Raw Value", barcode.getRawValue()));
                     BarcodeResultFragment.show(getParentFragmentManager(), barcodeFieldList);
-
+//                    searchWeb(gUrl + barcode.getRawValue());
                     //Send Scanned Product Event to Firebase Analytics
                     Analytics.logEventScanActivity(getContext(), getResources().getString(R.string.scanned));
                 }
@@ -278,6 +265,28 @@ public class LiveScanFragment extends Fragment implements View.OnClickListener {
             parent.removeAllViews();
         }
         super.onDestroy();
+    }
+
+    private void chooseAppToShareContext() {
+
+        //Log Analytics sharing screen content
+        Analytics.logEventScanActivity(getContext(), getResources().getString(R.string.shareContent));
+        String mimeType = "text/plain";
+
+        ShareCompat.IntentBuilder.from(getActivity())
+                .setChooserTitle(getResources().getString(R.string.app_name))
+                .setType(mimeType)
+                .setText("Test")
+                .startChooser();
+
+    }
+
+    private void searchWeb(String query) {
+        Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
+        intent.putExtra(SearchManager.QUERY, query);
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 
 
