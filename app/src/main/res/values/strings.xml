@@ -92,4 +92,6 @@
     <string name="shareContent">ShareScreenContent</string>
     <string name="viewproduct">ViewProductDetail</string>
     <string name="scanned">ProductScanned</string>
+    <string name="product_upc">Product UPC Number</string>
+    <string name="mime_type">text/plain</string>
 </resources>
