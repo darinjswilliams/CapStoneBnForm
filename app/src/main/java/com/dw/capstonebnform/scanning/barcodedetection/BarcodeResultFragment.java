@@ -13,6 +13,9 @@ import com.dw.capstonebnform.R;
 import com.dw.capstonebnform.analytics.Analytics;
 import com.dw.capstonebnform.databinding.BarcodeBottomSheetBinding;
 import com.dw.capstonebnform.scanning.camera.WorkflowModel;
+import com.dw.capstonebnform.utils.InjectorUtils;
+import com.dw.capstonebnform.viewModel.SearchUPCViewModel;
+import com.dw.capstonebnform.viewModel.SearchViewModelFactory;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.ArrayList;
@@ -32,6 +35,8 @@ public class BarcodeResultFragment extends BottomSheetDialogFragment {
     private static final String ARG_BARCODE_FIELD_LIST = "arg_barcode_field_list";
 
     private BarcodeBottomSheetBinding barcodeBottomSheetBinding;
+
+    private SearchUPCViewModel mSearchUPCViewModel;
 
     public static void show(
             FragmentManager fragmentManager, ArrayList<BarcodeField> barcodeFieldArrayList) {
@@ -81,6 +86,16 @@ public class BarcodeResultFragment extends BottomSheetDialogFragment {
         });
 
         //TODO call rapid api to get more data
+        SearchViewModelFactory searchViewModelFactory = InjectorUtils.provideSearchViewModelFactory(getContext(),
+                barcodeFieldList.get(0).value.toString());
+        mSearchUPCViewModel = new ViewModelProvider(this, searchViewModelFactory).get(SearchUPCViewModel.class);
+
+        mSearchUPCViewModel.getmUPCwithOfferItemListLiveData().observe(this, upCode -> {
+
+            Log.d(TAG, "onCreateView: Search UPC size.." + upCode.size());
+            //Todo set adapter
+
+        });
 
         return barcodeBottomSheetBinding.getRoot();
     }
@@ -115,7 +130,6 @@ public class BarcodeResultFragment extends BottomSheetDialogFragment {
             startActivity(intent);
         }
     }
-
 
 
 }

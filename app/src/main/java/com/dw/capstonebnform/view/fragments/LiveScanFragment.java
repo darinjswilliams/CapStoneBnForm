@@ -2,8 +2,6 @@ package com.dw.capstonebnform.view.fragments;
 
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
-import android.app.SearchManager;
-import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.util.Log;

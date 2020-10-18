@@ -8,12 +8,16 @@ import com.dw.capstonebnform.dao.HazardsDAO;
 import com.dw.capstonebnform.dao.ImagesDAO;
 import com.dw.capstonebnform.dao.ImportersDAO;
 import com.dw.capstonebnform.dao.InjuriesDAO;
+import com.dw.capstonebnform.dao.ItemDAO;
 import com.dw.capstonebnform.dao.ManufacturerCountriesDAO;
 import com.dw.capstonebnform.dao.ManufacturesDAO;
+import com.dw.capstonebnform.dao.OfferDAO;
 import com.dw.capstonebnform.dao.ProductsDAO;
 import com.dw.capstonebnform.dao.RecallDAO;
 import com.dw.capstonebnform.dao.RemediesDAO;
 import com.dw.capstonebnform.dao.RetailersDAO;
+import com.dw.capstonebnform.dao.UPCodeSearchDAO;
+import com.dw.capstonebnform.dao.UrlListDAO;
 import com.dw.capstonebnform.dto.Distributors;
 import com.dw.capstonebnform.dto.Hazards;
 import com.dw.capstonebnform.dto.Images;
@@ -28,6 +32,10 @@ import com.dw.capstonebnform.dto.Recall;
 import com.dw.capstonebnform.dto.Remedies;
 import com.dw.capstonebnform.dto.RemedyOptions;
 import com.dw.capstonebnform.dto.Retailers;
+import com.dw.capstonebnform.upc.Item;
+import com.dw.capstonebnform.upc.Offer;
+import com.dw.capstonebnform.upc.UPCodeSearch;
+import com.dw.capstonebnform.upc.UrlList;
 
 import androidx.room.Database;
 import androidx.room.Room;
@@ -36,7 +44,8 @@ import androidx.room.TypeConverters;
 
 //ADD THE TYPE CONVERTERS SO ROOM KNOWS HOW TO DEAL WITH List CONVERSION
 @Database(entities = {Distributors.class, Hazards.class, Images.class, Importers.class, Inconjuctions.class, Injuries.class, ManufacturerCountries.class,
-Manufacturers.class, Product.class, ProductUPC.class, Recall.class, Remedies.class, RemedyOptions.class, Retailers.class}, version = 1,  exportSchema = false)
+Manufacturers.class, Product.class, ProductUPC.class, Recall.class, Remedies.class, RemedyOptions.class, Retailers.class,
+Item.class, Offer.class, UrlList.class, UPCodeSearch.class}, version = 3,  exportSchema = false)
 @TypeConverters(DateTypeConverter.class)
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -75,4 +84,9 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract RecallDAO recallDAO();
     public abstract RemediesDAO remediesDAO();
     public abstract RetailersDAO retailersDAO();
+    public abstract ItemDAO itemDAO();
+    public abstract OfferDAO offerDAO();
+    public abstract UrlListDAO urlListDAO();
+    public abstract UPCodeSearchDAO upCodeSearchDAO();
+
 }

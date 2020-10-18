@@ -19,5 +19,8 @@ public class Constants {
     public static final String RECALL_NUMBER = "Recall Number Id";
     public static final String RECALL_BY_LAST_DATE_PUBLISHED = "Recall Last Date Published";
 
+    //base Url Upc
+    public static final String UPC_BASE_URL = "https://api.upcitemdb.com/prod/trial/";
+    public static final String UPC_LOOKUP = "lookup";
+
 }
-;
