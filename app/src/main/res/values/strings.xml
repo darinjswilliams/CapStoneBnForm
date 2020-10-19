@@ -95,4 +95,6 @@
     <string name="product_upc">Product UPC Number</string>
     <string name="mime_type">text/plain</string>
     <string name="contact_info">Contact Information</string>
+    <string name="happy_emoji">Product Safe</string>
+    <string name="sad_emoji">On Recall</string>
 </resources>

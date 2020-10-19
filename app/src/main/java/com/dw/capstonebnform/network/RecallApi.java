@@ -7,6 +7,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 //Retrofit Data feed
 public interface RecallApi {
@@ -17,8 +18,12 @@ public interface RecallApi {
     @GET(Constants.RECALL_BY_DATE)
     Call<List<Recall>> getRecallProductsByDate();
 
+
     @GET(Constants.RECALL_BY_PRODUCTS)
     Call<List<Recall>> getProductsAndImages();
+
+    @GET(Constants.SEARCH_RECALL_BY_NAME)
+    Call<List<Recall>> searchForRecallByName(@Query("productName") String productName);
 }
 
 

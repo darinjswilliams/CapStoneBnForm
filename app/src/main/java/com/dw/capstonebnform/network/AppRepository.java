@@ -151,6 +151,36 @@ public class AppRepository {
         return appDatabase.recallDAO().getRecallWithInjuriesAndImagesAndProducts();
     }
 
+    public boolean searchRecallWithProductName(String productName){
+
+        List<Recall> verifyRecallProductList = new ArrayList<>();
+        call = mRecallApi.searchForRecallByName(productName);
+
+        call.enqueue(new Callback<List<Recall>>() {
+            @Override
+            public void onResponse(Call<List<Recall>> call, Response<List<Recall>> response) {
+
+                if(response.isSuccessful()){
+
+                    List<Recall> recallList = response.body();
+                    verifyRecallProductList.addAll(recallList);
+                    Log.i(TAG, "onResponse: RecallSize: Boolean... " + verifyRecallProductList.size() );
+
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Recall>> call, Throwable t) {
+                Log.d(TAG, "onFailure: ");
+            }
+        });
+
+        //Checks if an array of Objects is empty or null.
+        return  verifyRecallProductList.isEmpty();
+
+    }
+
 
 
 

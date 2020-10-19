@@ -99,8 +99,6 @@ public class LowAlertAdapter extends RecyclerView.Adapter<LowAlertAdapter.LowAle
         public void bind(RecallWithInjuriesAndImagesAndProducts recallItems) throws ParseException {
             Log.i(TAG, "bind: ");
 
-            //format Date
-//                String mRecallDate = DateUtils.formatDateFromDateString(DATE_INPUT_FORMAT, DATE_OUTPUT_FORMAT, recallItems.recall.getMRecallDate());
             mLowAlertItemsBinding.dateIdLowAlertItemTxt.setText(recallItems.recall.getMRecallDate());
             mLowAlertItemsBinding.descriptionLowAlertItemText.setText(recallItems.recall.getMDescription());
             mLowAlertItemsBinding.titleLowAlertItemTxt.setText(recallItems.recall.getMTitle());

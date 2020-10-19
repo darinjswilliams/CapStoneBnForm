@@ -11,7 +11,9 @@ import com.dw.capstonebnform.R;
 import com.dw.capstonebnform.adapter.LowAlertAdapter;
 import com.dw.capstonebnform.databinding.FragmentLowAlertBinding;
 import com.dw.capstonebnform.dto.RecallWithInjuriesAndImagesAndProducts;
+import com.dw.capstonebnform.utils.InjectorUtils;
 import com.dw.capstonebnform.viewModel.LowViewModel;
+import com.dw.capstonebnform.viewModel.SharedViewModelFactory;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -76,7 +78,9 @@ public class LowAlertFragment extends Fragment {
 
         initRecyclerView(getContext());
 
-        lowViewModel = new ViewModelProvider(this).get(LowViewModel.class);
+//        lowViewModel = new ViewModelProvider(this).get(LowViewModel.class);
+        SharedViewModelFactory sharedViewModelFactory = InjectorUtils.provideSharedViewModelFactory(getContext());
+        lowViewModel = new ViewModelProvider(this, sharedViewModelFactory).get(LowViewModel.class);
 
         lowViewModel.getmRecallWithInjuriesAndImagesAndProducts().observe(getViewLifecycleOwner(), recallProducts -> {
             Log.d(TAG, "onCreateView: size of products return.." + recallProducts.size());
