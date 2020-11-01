@@ -39,4 +39,5 @@
     <dimen name="twentyfourSp_padding">24sp</dimen>
     <dimen name="padding4sp">4sp</dimen>
     <dimen name="padding_zero_sp">0sp</dimen>
+    <dimen name="size_40dp">40dp</dimen>
 </resources>

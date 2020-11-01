@@ -97,4 +97,17 @@
     <string name="contact_info">Contact Information</string>
     <string name="happy_emoji">Product Safe</string>
     <string name="sad_emoji">On Recall</string>
+    <string name="login_fragment">Recall Information</string>
+    <string name="email">Email Address</string>
+    <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
+    <string name="facebook_application_id" translatable="false">752692378651850</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb752692378651850</string>
+    <string name="facebook_app_id">752692378651850</string>
+    <string name="fb_login_protocol_scheme">fb752692378651850</string>
+    <string name="no_network">No Network Available</string>
+    <string name="sign_out">Successful Logged Out</string>
+    <string name="menu_signout">Sign Out</string>
+    <string name="login_name">login name</string>
+
+
 </resources>

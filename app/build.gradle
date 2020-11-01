@@ -20,6 +20,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+
     buildTypes {
         release {
             minifyEnabled false
@@ -45,7 +46,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
     testImplementation 'junit:junit:4.13'
     // Optional -- Robolectric environment
@@ -60,6 +61,8 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
     implementation "androidx.navigation:navigation-runtime:$nav_version"
+    implementation "androidx.navigation:navigation-testing:$nav_version"
+    debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
 
     //Reyclerview, Gridlayout
     implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
@@ -111,4 +114,19 @@ dependencies {
     //Volley
     implementation "com.android.volley:volley:$volley_version"
 
+    //Firebase Authentication
+    implementation "com.firebaseui:firebase-ui-auth:$firebase_authentication_version"
+
+    //Facebook Authentication
+    implementation "com.facebook.android:facebook-android-sdk:$facebook_auth_version"
+
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:24.7.1')
+
+    // Declare the dependency for the Firebase Authentication library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-auth'
+
+    // Also declare the dependency for the Google Play services library and specify its version
+    implementation "com.google.android.gms:play-services-auth:$google_auth_version"
 }

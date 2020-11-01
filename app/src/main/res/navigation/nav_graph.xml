@@ -5,20 +5,21 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/lowAlertFragment">
 
-     <fragment
+    <fragment
         android:id="@+id/lowAlertFragment"
         android:name="com.dw.capstonebnform.view.fragments.LowAlertFragment"
         android:label="@string/low_alert"
-        tools:layout="@layout/fragment_low_alert" >
+        tools:layout="@layout/fragment_low_alert">
         <action
             android:id="@+id/action_lowAlertFragment_to_recallDetailFragment"
-            app:destination="@id/recallDetailFragment_dest" />
+            app:destination="@id/recallDetailFragment_dest"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/recallDetailFragment_dest"
         android:name="com.dw.capstonebnform.view.fragments.RecallDetailFragment"
         android:label="@string/recall_details"
-        tools:layout="@layout/fragment_recall_detail" >
+        tools:layout="@layout/fragment_recall_detail">
         <argument
             android:name="rProduct"
             app:argType="com.dw.capstonebnform.dto.RecallWithInjuriesAndImagesAndProducts"
@@ -28,6 +29,10 @@
         android:id="@+id/liveScanFragment"
         android:name="com.dw.capstonebnform.view.fragments.LiveScanFragment"
         android:label="@string/live_scan"
-        tools:layout="@layout/fragment_live_scan" >
-    </fragment>
+        tools:layout="@layout/fragment_live_scan"></fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.dw.capstonebnform.view.fragments.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login"/>
 </navigation>

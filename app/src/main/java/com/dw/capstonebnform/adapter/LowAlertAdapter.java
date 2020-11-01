@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.dw.capstonebnform.R;
 import com.dw.capstonebnform.databinding.LowAlertItemsBinding;
+import com.dw.capstonebnform.dto.Images;
 import com.dw.capstonebnform.dto.RecallWithInjuriesAndImagesAndProducts;
 import com.dw.capstonebnform.utils.Constants;
 import com.dw.capstonebnform.widget.BnFormAppWidgetProvider;
@@ -18,6 +19,8 @@ import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -65,7 +68,7 @@ public class LowAlertAdapter extends RecyclerView.Adapter<LowAlertAdapter.LowAle
         //get positon of recall product
         try {
             holder.bind(mRecallWithInjuriesAndImagesAndProducts.get(position));
-            if(recordCount <= 3){
+            if (recordCount <= 3) {
                 holder.saveSharePrefrences(mRecallWithInjuriesAndImagesAndProducts.get(position));
                 recordCount--;
             }
@@ -103,9 +106,19 @@ public class LowAlertAdapter extends RecyclerView.Adapter<LowAlertAdapter.LowAle
             mLowAlertItemsBinding.descriptionLowAlertItemText.setText(recallItems.recall.getMDescription());
             mLowAlertItemsBinding.titleLowAlertItemTxt.setText(recallItems.recall.getMTitle());
 
-            if (recallItems.imagesList.get(0).getUrl().length() != 0) {
-                Picasso.get()
-                        .load(recallItems.imagesList.get(0).getUrl())
+
+//            String imageUrl =  recallItems.imagesList.get(0).getUrl().length()  <  0 ? "" : recallItems.imagesList.get(0).getUrl();
+//            return persons.flatMap(list -> list.stream().filter(Objects::nonNull).findFirst())
+//                    .map(Person::getAge)
+//                    .orElse(null);
+
+          String imageUrl = Stream.of(recallItems).flatMap(list -> list.imagesList.stream().filter(Objects::nonNull)).findFirst()
+                  .map(Images::getUrl).orElse(null);
+
+
+            if (imageUrl != null) {
+                Picasso.get( )
+                        .load(imageUrl)
                         .into(mLowAlertItemsBinding.imageViewLowAlertItemImage);
             }
 

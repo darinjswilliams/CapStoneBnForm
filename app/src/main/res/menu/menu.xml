@@ -2,18 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/lowAlertFragment"
-        android:orderInCategory="1"
-        android:title="@string/alerts"
-        android:visible="true"
-        app:showAsAction="never" />
+
 
 
     <item
         android:id="@+id/liveScanFragment"
         android:checkable="true"
+        android:orderInCategory="100"
         android:icon="@drawable/icon_mdpi"
         android:title="@string/scan_icon_menu"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/loginFragment"
+        android:enabled="true"
+        android:orderInCategory="200"
+        android:title="@string/menu_signout"
+        android:visible="true"
+        app:showAsAction="ifRoom|withText" />
 </menu>

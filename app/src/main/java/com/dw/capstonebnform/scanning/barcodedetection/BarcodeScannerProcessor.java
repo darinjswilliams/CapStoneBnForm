@@ -20,7 +20,7 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import java.io.IOException;
 import java.util.List;
 
-/** Barcode Detector Demo. */
+
 public class BarcodeScannerProcessor extends FrameProcessorBase<List<FirebaseVisionBarcode>> {
 
     private final static String TAG = BarcodeScannerProcessor.class.getSimpleName();
