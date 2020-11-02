@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "928684846-rbuccsk7msop5npj9cid8l74f4sqetan.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dw.capstonebnform",
+            "certificate_hash": "99e4ab5835f73c02ad96e4ec63514909a8cac390"
+          }
+        },
+        {
           "client_id": "928684846-790sk90s3r22bhav19vovdomd7ol3gpq.apps.googleusercontent.com",
           "client_type": 3
         }

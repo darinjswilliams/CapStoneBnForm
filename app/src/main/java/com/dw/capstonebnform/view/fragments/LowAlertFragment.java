@@ -6,12 +6,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.dw.capstonebnform.R;
 import com.dw.capstonebnform.adapter.LowAlertAdapter;
 import com.dw.capstonebnform.databinding.FragmentLowAlertBinding;
 import com.dw.capstonebnform.dto.RecallWithInjuriesAndImagesAndProducts;
+import com.dw.capstonebnform.dto.User;
 import com.dw.capstonebnform.viewModel.LowViewModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,6 +43,8 @@ public class LowAlertFragment extends Fragment {
     NavHostFragment navHostFragment;
     FragmentManager fragmentManager;
     private AlertInteractionListener mAlertsListner;
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    private User user;
 
 
     private static final String TAG = LowAlertFragment.class.getSimpleName();
@@ -54,7 +60,12 @@ public class LowAlertFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser.equals(null)) {
+            NavHostFragment.findNavController(this).navigate(R.id.lowAlertFragment);
+        } else {
+            user = LowAlertFragmentArgs.fromBundle(getArguments()).getUser();
+        }
     }
 
     @Override
@@ -62,7 +73,7 @@ public class LowAlertFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         Log.i(TAG, "onCreateView: ");
-
+        Toast.makeText(getActivity(), getResources().getString(R.string.success_login) + user.getName(), Toast.LENGTH_SHORT).show();
         mFragmentLowAlertBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_low_alert, container, false);
 
         navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_container);

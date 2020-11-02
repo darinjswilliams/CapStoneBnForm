@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/lowAlertFragment">
+    app:startDestination="@id/loginFragment">
 
      <fragment
         android:id="@+id/lowAlertFragment"
@@ -13,7 +13,10 @@
         <action
             android:id="@+id/action_lowAlertFragment_to_recallDetailFragment"
             app:destination="@id/recallDetailFragment_dest" />
-    </fragment>
+         <argument
+             android:name="user"
+             app:argType="com.dw.capstonebnform.dto.User" />
+     </fragment>
     <fragment
         android:id="@+id/recallDetailFragment_dest"
         android:name="com.dw.capstonebnform.view.fragments.RecallDetailFragment"
@@ -29,5 +32,16 @@
         android:name="com.dw.capstonebnform.view.fragments.LiveScanFragment"
         android:label="@string/live_scan"
         tools:layout="@layout/fragment_live_scan" >
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.dw.capstonebnform.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_lowAlertFragment"
+            app:destination="@id/lowAlertFragment"
+            app:popUpTo="@id/lowAlertFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

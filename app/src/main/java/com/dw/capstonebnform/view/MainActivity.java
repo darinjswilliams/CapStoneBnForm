@@ -1,14 +1,21 @@
 package com.dw.capstonebnform.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.dw.capstonebnform.LoginFragment;
 import com.dw.capstonebnform.R;
 import com.dw.capstonebnform.databinding.ActivityMainBinding;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +27,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private NavController navController;
@@ -29,13 +36,14 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolBar;
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding mBinding;
-
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    private GoogleSignInClient googleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        initGoogleSignInClient();
         setupNavigation();
     }
 
@@ -47,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
 
         //AppBarConfiguration use the top level destination as root
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph())
+        appBarConfiguration = new AppBarConfiguration.Builder(R.id.loginFragment, R.id.lowAlertFragment)
                 .setOpenableLayout(drawerLayout)
                 .build();
 
@@ -107,5 +115,50 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser == null) {
+            goToAuthInActivity();
+        }
+    }
+
+
+    private void goToAuthInActivity() {
+        Intent intent = new Intent(MainActivity.this, LoginFragment.class);
+        startActivity(intent);
+    }
+    private void signOut() {
+        signOutFirebase();
+        signOutGoogle();
+    }
+
+    private void signOutFirebase() {
+        firebaseAuth.signOut();
+    }
+
+    private void signOutGoogle() {
+        googleSignInClient.signOut();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebaseAuth.addAuthStateListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        firebaseAuth.removeAuthStateListener(this);
+    }
+
+    private void initGoogleSignInClient() {
+        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
+                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .build();
+        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
     }
 }
