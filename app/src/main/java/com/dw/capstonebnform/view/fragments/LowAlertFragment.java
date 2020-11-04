@@ -13,6 +13,7 @@ import com.dw.capstonebnform.adapter.LowAlertAdapter;
 import com.dw.capstonebnform.databinding.FragmentLowAlertBinding;
 import com.dw.capstonebnform.dto.RecallWithInjuriesAndImagesAndProducts;
 import com.dw.capstonebnform.dto.User;
+import com.dw.capstonebnform.utils.DrawerLocker;
 import com.dw.capstonebnform.viewModel.LowViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -61,6 +62,9 @@ public class LowAlertFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+        ( (DrawerLocker) getActivity()).setDrawerEnabled(true);
+
         if (firebaseUser.equals(null)) {
             NavHostFragment.findNavController(this).navigate(R.id.lowAlertFragment);
         } else {

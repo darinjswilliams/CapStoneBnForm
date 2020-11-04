@@ -5,36 +5,76 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".LoginFragment">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/login_frag_id"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/login_frag_id"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/sign_in_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        app:buttonSize="wide"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="179dp"
-        android:layout_height="179dp"
-        android:contentDescription="@string/bnfrom_welcome"
-        android:layout_marginTop="48dp"
-        android:src="@drawable/bnform_widget_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.456"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <!-- TODO: Update blank fragment layout -->
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:buttonSize="wide"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.458"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/email_sign_in_button" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="179dp"
+            android:layout_height="179dp"
+            android:layout_marginTop="48dp"
+            android:contentDescription="@string/bnfrom_welcome"
+            android:src="@drawable/bnform_widget_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.456"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/email_id"
+            android:layout_width="178dp"
+            android:layout_height="37dp"
+            android:layout_marginTop="12dp"
+            android:inputType="textEmailAddress"
+            android:hint="@string/email_hint"
+            android:text="Email Holder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.454"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+        <EditText
+            android:id="@+id/password_id"
+            android:hint="@string/password_hint"
+            android:layout_width="189dp"
+            android:layout_height="39dp"
+            android:layout_marginTop="8dp"
+            android:inputType="textPassword"
+            android:text="Passord Holder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.465"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/email_id" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/email_sign_in_button"
+            android:layout_width="180dp"
+            android:layout_height="47dp"
+            android:layout_marginTop="9dp"
+            android:text="Email Sign-in"
+            app:icon="@drawable/ic_baseline_alternate_email_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.454"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/password_id" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

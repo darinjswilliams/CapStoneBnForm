@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.dw.capstonebnform.databinding.FragmentLoginBinding;
 import com.dw.capstonebnform.dto.User;
+import com.dw.capstonebnform.utils.DrawerLocker;
 import com.dw.capstonebnform.viewModel.AuthViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -22,6 +23,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -38,6 +40,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private AuthViewModel authViewModel;
     private LoginFragmentDirections.ActionLoginFragmentToLowAlertFragment mActionloginFragmentDirections;
     private NavController navController;
+    private DrawerLayout drawerLayout;
 
 
     public LoginFragment() {
@@ -52,6 +55,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
+
+        ( (DrawerLocker) getActivity()).setDrawerEnabled(false);
 
         mGogleSignInClient = GoogleSignIn.getClient(getActivity(), googleSignInOptions);
         navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_container);

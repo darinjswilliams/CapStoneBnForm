@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import com.dw.capstonebnform.LoginFragment;
 import com.dw.capstonebnform.R;
 import com.dw.capstonebnform.databinding.ActivityMainBinding;
+import com.dw.capstonebnform.utils.DrawerLocker;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -27,7 +28,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-public class MainActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
+public class MainActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener, DrawerLocker {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private NavController navController;
@@ -53,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_container);
 
         drawerLayout = findViewById(R.id.drawer_layout);
+
+
 
         //AppBarConfiguration use the top level destination as root
         appBarConfiguration = new AppBarConfiguration.Builder(R.id.loginFragment, R.id.lowAlertFragment)
@@ -160,5 +163,13 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .build();
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
+    }
+
+    @Override
+    public void setDrawerEnabled(boolean enabled) {
+        int lockMode = enabled ? DrawerLayout.LOCK_MODE_UNLOCKED :
+                DrawerLayout.LOCK_MODE_LOCKED_CLOSED;
+        drawerLayout.setDrawerLockMode(lockMode);
+
     }
 }

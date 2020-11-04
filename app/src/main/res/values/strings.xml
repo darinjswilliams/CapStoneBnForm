@@ -92,4 +92,6 @@
     <string name="invalid_credentials">Invalid Credentials</string>
     <string name="new_user">New User Created</string>
     <string name="success_login">Hello</string>
+    <string name="email_hint">Email Address</string>
+    <string name="password_hint">Password</string>
 </resources>
