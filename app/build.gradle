@@ -62,7 +62,6 @@ dependencies {
     implementation "androidx.navigation:navigation-ui:$nav_version"
     implementation "androidx.navigation:navigation-runtime:$nav_version"
     implementation "androidx.navigation:navigation-testing:$nav_version"
-    debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
 
     //Reyclerview, Gridlayout
     implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
@@ -126,6 +125,7 @@ dependencies {
     // Declare the dependency for the Firebase Authentication library
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-core:18.0.0'
 
     // Also declare the dependency for the Google Play services library and specify its version
     implementation "com.google.android.gms:play-services-auth:$google_auth_version"

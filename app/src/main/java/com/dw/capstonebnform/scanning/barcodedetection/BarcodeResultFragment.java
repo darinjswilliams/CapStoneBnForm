@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.dw.capstonebnform.R;
 import com.dw.capstonebnform.analytics.Analytics;
 import com.dw.capstonebnform.databinding.BarcodeBottomSheetBinding;
+import com.dw.capstonebnform.dto.UpcWithOfferItemList;
 import com.dw.capstonebnform.scanning.camera.WorkflowModel;
 import com.dw.capstonebnform.utils.InjectorUtils;
 import com.dw.capstonebnform.viewModel.LowViewModel;
@@ -21,6 +22,8 @@ import com.dw.capstonebnform.viewModel.SearchViewModelFactory;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,7 +47,9 @@ public class BarcodeResultFragment extends BottomSheetDialogFragment {
 
     private String barCodeUpcNumber;
 
-    private String searchRecallWithProductName;
+    private List<UpcWithOfferItemList> searchRecallWithProductNameList = new ArrayList<>();
+
+    private String productName;
 
     public static void show(
             FragmentManager fragmentManager, ArrayList<BarcodeField> barcodeFieldArrayList) {
@@ -100,12 +105,17 @@ public class BarcodeResultFragment extends BottomSheetDialogFragment {
 
         mSearchUPCViewModel.getmUPCwithOfferItemListLiveData().observe(this, upCode -> {
 
-            Log.d(TAG, "onCreateView: Search UPC size.." + upCode.size());
-            Log.d(TAG, "onCreateView: Brand Name..." + upCode.get(0).itemList.get(0).getBrand() );
-            searchRecallWithProductName = upCode.get(0).itemList.get(0).getBrand();
+//            Log.d(TAG, "onCreateView: Search UPC size.." + upCode.size());
+//            Log.d(TAG, "onCreateView: Brand Name..." + upCode.get(0).itemList.get(0).getBrand() );
+            searchRecallWithProductNameList = upCode.stream().filter(upc -> upc.itemList.size() > 0).collect(Collectors.toList());
+//            searchRecallWithProductName = upCode.get(0).itemList.get(0).getBrand();
         });
 
-        SearchRecallViewModelFactory searchRecallViewModelFactory = InjectorUtils.provideSearchRecallViewModelFactory(getContext(), searchRecallWithProductName);
+        if(searchRecallWithProductNameList.size() > 0){
+            productName = searchRecallWithProductNameList.get(0).itemList.get(0).getBrand();
+        }
+
+        SearchRecallViewModelFactory searchRecallViewModelFactory = InjectorUtils.provideSearchRecallViewModelFactory(getContext(), productName);
         mSearchLowViewModel = new ViewModelProvider(this, searchRecallViewModelFactory).get(LowViewModel.class);
 
         Log.i(TAG, "onCreateView: IS PRODUCT ON RECALL" + mSearchLowViewModel.isProductIsOnRecall() );
