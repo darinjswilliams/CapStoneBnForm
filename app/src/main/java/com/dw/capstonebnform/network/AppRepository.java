@@ -1,6 +1,6 @@
 package com.dw.capstonebnform.network;
 
-import android.content.Context;
+import android.app.Application;
 import android.util.Log;
 
 import com.dw.capstonebnform.dto.Images;
@@ -48,18 +48,18 @@ public class AppRepository {
     private AppExecutors appExecutors;
 
 
-    public static  AppRepository getInstance(Context context){
+    public static  AppRepository getInstance(Application application){
         if(ourInstance == null){
-            ourInstance = new AppRepository(context.getApplicationContext());
+            ourInstance = new AppRepository(application);
         }
         return  ourInstance;
     }
 
-    private AppRepository(Context context){
+    private AppRepository(Application application){
         retrofit = RetroFitClient.getClient();
         mRecallApi = retrofit.create(RecallApi.class);
         //TODO add appDatabase and appExececutor
-        appDatabase = AppDatabase.getsInstance(context);
+        appDatabase = AppDatabase.getsInstance(application);
         appExecutors = AppExecutors.getInstance();
     }
 

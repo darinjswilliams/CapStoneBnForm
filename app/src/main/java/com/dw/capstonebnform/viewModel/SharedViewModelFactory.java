@@ -1,25 +1,25 @@
 package com.dw.capstonebnform.viewModel;
 
-import android.content.Context;
+import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 public class SharedViewModelFactory extends ViewModelProvider.NewInstanceFactory {
-    private final Context mContext;
+    private final Application application;
 
 
-    public SharedViewModelFactory(Context context) {
+    public SharedViewModelFactory(Application application) {
 
-        this.mContext = context;
+        this.application = application;
 
     }
 
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new LowViewModel(mContext);
+        return (T) new LowViewModel(application);
     }
 
 

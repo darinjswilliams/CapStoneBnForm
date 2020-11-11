@@ -1,6 +1,6 @@
 package com.dw.capstonebnform.network;
 
-import android.content.Context;
+import android.app.Application;
 import android.util.Log;
 
 import com.dw.capstonebnform.dto.UpcWithOfferItemList;
@@ -40,20 +40,20 @@ public class UpcRepository {
     private AppDatabase appDatabase;
     private AppExecutors mAppExecutors;
 
-    public static  UpcRepository getInstance(Context context, AppExecutors appExecutors){
+    public static  UpcRepository getInstance(Application application, AppExecutors appExecutors){
         if(ourInstance == null){
 
-            ourInstance = new UpcRepository(context.getApplicationContext(), appExecutors);
+            ourInstance = new UpcRepository(application, appExecutors);
         }
         return  ourInstance;
     }
 
-    public UpcRepository(Context applicationContext, AppExecutors appExecutors) {
+    public UpcRepository(Application application, AppExecutors appExecutors) {
 
         retrofit = UpcClient.getClient();
         mUpcApi = retrofit.create(UPCApi.class);
 
-        appDatabase = AppDatabase.getsInstance(applicationContext);
+        appDatabase = AppDatabase.getsInstance(application);
 
         if(appExecutors == null) {
             mAppExecutors = AppExecutors.getInstance();

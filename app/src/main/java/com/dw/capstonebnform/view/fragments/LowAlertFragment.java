@@ -56,6 +56,7 @@ public class LowAlertFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -77,7 +78,7 @@ public class LowAlertFragment extends Fragment {
 
         initRecyclerView(getContext());
 
-        SharedViewModelFactory sharedViewModelFactory = InjectorUtils.provideSharedViewModelFactory(getContext());
+        SharedViewModelFactory sharedViewModelFactory = InjectorUtils.provideSharedViewModelFactory(getActivity().getApplication());
         lowViewModel = new ViewModelProvider(this, sharedViewModelFactory).get(LowViewModel.class);
 
         lowViewModel.getmRecallWithInjuriesAndImagesAndProducts().observe(getViewLifecycleOwner(), recallProducts -> {

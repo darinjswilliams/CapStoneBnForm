@@ -12,6 +12,7 @@ import android.view.View;
 import com.dw.capstonebnform.R;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private Toolbar toolBar;
     private AppBarConfiguration appBarConfiguration;
-
+    private FirebaseUser user;
 
 
     @Override
@@ -40,10 +41,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        navController = Navigation.findNavController(this, R.id.nav_host_fragment_container);
-        navController.navigate(R.id.loginFragment);
-        setupNavigation();
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment_container);
+
+        if(user != null){
+            setupNavigation();
+        } else {
+            setupNavigation();
+            navController.navigate(R.id.loginFragment);
+        }
 
     }
 

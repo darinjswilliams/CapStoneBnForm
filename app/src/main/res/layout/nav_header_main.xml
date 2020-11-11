@@ -16,9 +16,9 @@
 
     <ImageView
         android:id="@+id/nav_header_imageView"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:src="@mipmap/ic_launcher" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_launcher_bnform" />
 
     <TextView
         android:id="@+id/nav_header_textView"

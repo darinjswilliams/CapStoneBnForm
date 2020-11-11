@@ -18,6 +18,8 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -31,8 +33,8 @@ public class LowAlertAdapter extends RecyclerView.Adapter<LowAlertAdapter.LowAle
     //    final private LowAlertAdapterClickListner mOnItemClickListener;
     private List<RecallWithInjuriesAndImagesAndProducts> mRecallWithInjuriesAndImagesAndProducts;
     private Context mContext;
-    public static final String DATE_INPUT_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    public static final String DATE_OUTPUT_FORMAT = "MM/dd/yyyy";
+    public static final DateTimeFormatter DATE_INPUT_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    public static final DateTimeFormatter DATE_OUTPUT_FORMAT = DateTimeFormatter.ofPattern("EEEE, MMM d, yyyy");
     private BnFormAppWidgetProvider bnFormAppWidgetProvider;
     private int recordCount = 3;
 
@@ -102,22 +104,20 @@ public class LowAlertAdapter extends RecyclerView.Adapter<LowAlertAdapter.LowAle
         public void bind(RecallWithInjuriesAndImagesAndProducts recallItems) throws ParseException {
             Log.i(TAG, "bind: ");
 
-            mLowAlertItemsBinding.dateIdLowAlertItemTxt.setText(recallItems.recall.getMRecallDate());
+            String lTime = recallItems.recall.getMRecallDate().substring(0,10);
+            LocalDate ldateTime = LocalDate.parse(lTime, DATE_INPUT_FORMAT);
+            mLowAlertItemsBinding.dateIdLowAlertItemTxt.setText(DATE_OUTPUT_FORMAT.format(ldateTime));
+
             mLowAlertItemsBinding.descriptionLowAlertItemText.setText(recallItems.recall.getMDescription());
             mLowAlertItemsBinding.titleLowAlertItemTxt.setText(recallItems.recall.getMTitle());
 
 
-//            String imageUrl =  recallItems.imagesList.get(0).getUrl().length()  <  0 ? "" : recallItems.imagesList.get(0).getUrl();
-//            return persons.flatMap(list -> list.stream().filter(Objects::nonNull).findFirst())
-//                    .map(Person::getAge)
-//                    .orElse(null);
-
-          String imageUrl = Stream.of(recallItems).flatMap(list -> list.imagesList.stream().filter(Objects::nonNull)).findFirst()
-                  .map(Images::getUrl).orElse(null);
+            String imageUrl = Stream.of(recallItems).flatMap(list -> list.imagesList.stream().filter(Objects::nonNull)).findFirst()
+                    .map(Images::getUrl).orElse(null);
 
 
             if (imageUrl != null) {
-                Picasso.get( )
+                Picasso.get()
                         .load(imageUrl)
                         .into(mLowAlertItemsBinding.imageViewLowAlertItemImage);
             }

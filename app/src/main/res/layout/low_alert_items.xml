@@ -8,7 +8,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/welcome_cardview"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="300dp"
         android:clickable="true"
         android:focusable="true"
         android:checkable="true"
@@ -28,7 +28,7 @@
                 android:id="@+id/imageView_low_alert_item_image"
                 android:layout_width="153dp"
                 android:layout_height="101dp"
-                android:layout_marginStart="28dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:background="@color/design_default_color_background"
                 android:contentDescription="@string/placeholder"
@@ -38,40 +38,78 @@
 
             <TextView
                 android:id="@+id/title_low_alert_item_txt"
-                android:layout_width="173dp"
-                android:layout_height="34dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 android:text="@string/titleText"
                 android:textColor="@color/colorText"
+                app:layout_constraintBottom_toTopOf="@+id/guideline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView_low_alert_item_image"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/product_title" />
 
             <TextView
                 android:id="@+id/dateId_low_alert_item_txt"
-                android:layout_width="173dp"
-                android:layout_height="29dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="32dp"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/dateAndTime"
                 android:textColor="@color/colorText"
-                app:layout_constraintStart_toEndOf="@+id/imageView_low_alert_item_image"
-                app:layout_constraintTop_toBottomOf="@+id/title_low_alert_item_txt" />
+                app:layout_constraintStart_toEndOf="@+id/last_date_published"
+                app:layout_constraintTop_toTopOf="@+id/guideline" />
 
             <TextView
                 android:id="@+id/description_low_alert_item_text"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="8dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:padding="4dp"
                 android:text="@string/description"
                 android:textColor="@color/colorText"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView_low_alert_item_image" />
+                app:layout_constraintTop_toBottomOf="@+id/last_date_published"
+                app:layout_constraintVertical_bias="0.407" />
+
+            <TextView
+                android:id="@+id/product_title"
+                android:layout_width="50dp"
+                android:layout_height="22dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/titleText"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/imageView_low_alert_item_image"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/last_date_published"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/recall_last_date_published"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="125dp" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

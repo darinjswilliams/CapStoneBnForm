@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CapStoneBnForm</string>
+    <string name="app_name">BnForm</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="high_alert">High</string>

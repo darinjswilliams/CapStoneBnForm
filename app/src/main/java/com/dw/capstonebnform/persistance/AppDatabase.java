@@ -1,6 +1,6 @@
 package com.dw.capstonebnform.persistance;
 
-import android.content.Context;
+import android.app.Application;
 import android.util.Log;
 
 import com.dw.capstonebnform.dao.DistributorsDAO;
@@ -54,11 +54,11 @@ public abstract class AppDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "Bnform";
     private  static AppDatabase sInstance;
 
-    public static AppDatabase getsInstance(Context context) {
+    public static AppDatabase getsInstance(Application application) {
         if(sInstance == null) {
             synchronized (LOCK) {
                 Log.d(LOG_TAG,   "Creating new database instance");
-                sInstance = Room.databaseBuilder(context.getApplicationContext(),
+                sInstance = Room.databaseBuilder(application,
                         AppDatabase.class, AppDatabase.DATABASE_NAME)
                         //TODO -  Queries should be done in a separate thread to avoid locking the UI
                         //We will allow this only temporally to see that our db is working

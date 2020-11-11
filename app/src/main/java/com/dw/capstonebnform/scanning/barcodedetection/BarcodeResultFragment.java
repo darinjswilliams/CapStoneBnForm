@@ -68,6 +68,14 @@ public class BarcodeResultFragment extends BottomSheetDialogFragment {
         }
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        SearchViewModelFactory searchViewModelFactory = InjectorUtils.provideSearchViewModelFactory(getActivity().getApplication(), barCodeUpcNumber);
+
+        mSearchUPCViewModel = new ViewModelProvider(this, searchViewModelFactory).get(SearchUPCViewModel.class);
+    }
+
     @Nullable
     @Override
     public View onCreateView(
@@ -99,9 +107,7 @@ public class BarcodeResultFragment extends BottomSheetDialogFragment {
             }
         });
 
-        SearchViewModelFactory searchViewModelFactory = InjectorUtils.provideSearchViewModelFactory(getContext(), barCodeUpcNumber);
 
-        mSearchUPCViewModel = new ViewModelProvider(this, searchViewModelFactory).get(SearchUPCViewModel.class);
 
         mSearchUPCViewModel.getmUPCwithOfferItemListLiveData().observe(this, upCode -> {
 
@@ -115,7 +121,7 @@ public class BarcodeResultFragment extends BottomSheetDialogFragment {
             productName = searchRecallWithProductNameList.get(0).itemList.get(0).getBrand();
         }
 
-        SearchRecallViewModelFactory searchRecallViewModelFactory = InjectorUtils.provideSearchRecallViewModelFactory(getContext(), productName);
+        SearchRecallViewModelFactory searchRecallViewModelFactory = InjectorUtils.provideSearchRecallViewModelFactory(getActivity().getApplication(), productName);
         mSearchLowViewModel = new ViewModelProvider(this, searchRecallViewModelFactory).get(LowViewModel.class);
 
         Log.i(TAG, "onCreateView: IS PRODUCT ON RECALL" + mSearchLowViewModel.isProductIsOnRecall() );

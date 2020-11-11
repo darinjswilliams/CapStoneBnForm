@@ -78,7 +78,7 @@ public class LoginFragment extends Fragment {
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
                         .setAvailableProviders(providers)
-                        .setLogo(R.drawable.bnform_widget_icon)      // Set logo drawable
+                        .setLogo(R.drawable.bnform_widget_icon)
                         .setIsSmartLockEnabled(false)
                         .build(),
                 RC_SIGN_IN);
