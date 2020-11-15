@@ -16,14 +16,15 @@ public interface RecallApi {
     Call<List<Recall>> getRecallProducts();
 
     @GET(Constants.RECALL_BY_DATE)
-    Call<List<Recall>> getRecallProductsByDate();
+    Call<List<Recall>> getRecallProductsByDate(@Query("RecallDateStart") String recallStartDate,
+                                               @Query("RecallEndDate") String recallEndDate);
 
 
     @GET(Constants.RECALL_BY_PRODUCTS)
     Call<List<Recall>> getProductsAndImages();
 
     @GET(Constants.SEARCH_RECALL_BY_NAME)
-    Call<List<Recall>> searchForRecallByName(@Query("productName") String productName);
+    Call<List<Recall>> searchForRecallByName(@Query("ProductName") String productName);
 }
 
 

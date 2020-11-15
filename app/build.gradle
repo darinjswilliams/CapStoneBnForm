@@ -123,11 +123,11 @@ dependencies {
     //Volley
     implementation "com.android.volley:volley:$volley_version"
 
-    //Firebase Authentication
-    implementation "com.firebaseui:firebase-ui-auth:$firebase_authentication_version"
-
     //Facebook Authentication
     implementation "com.facebook.android:facebook-android-sdk:$facebook_auth_version"
+
+    //Firebase Authentication
+    implementation "com.firebaseui:firebase-ui-auth:$firebase_authentication_version"
 
     // Import the BoM for the Firebase platform
     implementation platform('com.google.firebase:firebase-bom:24.7.1')
@@ -139,4 +139,5 @@ dependencies {
 
     // Also declare the dependency for the Google Play services library and specify its version
     implementation "com.google.android.gms:play-services-auth:$google_auth_version"
+
 }

@@ -11,6 +11,7 @@ import com.dw.capstonebnform.dto.RecallWithInjuriesAndImagesAndProducts;
 import com.dw.capstonebnform.dto.RecallWithProductsAndImages;
 import com.dw.capstonebnform.persistance.AppDatabase;
 import com.dw.capstonebnform.persistance.AppExecutors;
+import com.dw.capstonebnform.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,7 +70,7 @@ public class AppRepository {
     public void loadRecallProductsFromWeb(){
 
         //Parse with retrofit
-        call = mRecallApi.getRecallProductsByDate();
+        call = mRecallApi.getRecallProductsByDate(DateUtils.getSixMonthsBeforeCurrentDate(), DateUtils.getCurrentDateWithFormatYYYYMMDD());
 
         //Place in background thread
         call.enqueue(new Callback<List<Recall>>() {

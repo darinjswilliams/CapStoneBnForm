@@ -1,7 +1,6 @@
 package com.dw.capstonebnform.view;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -10,9 +9,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.dw.capstonebnform.R;
+import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Arrays;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,24 +37,50 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolBar;
     private AppBarConfiguration appBarConfiguration;
     private FirebaseUser user;
-
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private static final int RC_SIGN_IN = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        user = FirebaseAuth.getInstance().getCurrentUser();
+        mFirebaseAuth = FirebaseAuth.getInstance();
+
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_container);
 
-        if(user != null){
-            setupNavigation();
-        } else {
-            setupNavigation();
-            navController.navigate(R.id.loginFragment);
-        }
 
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    setupNavigation();
+                } else {
+
+                    List<AuthUI.IdpConfig> providers = Arrays.asList(
+                            new AuthUI.IdpConfig.EmailBuilder().build(),
+                            new AuthUI.IdpConfig.FacebookBuilder().build(),
+                            new AuthUI.IdpConfig.GoogleBuilder().build(),
+                            new AuthUI.IdpConfig.PhoneBuilder().build()
+
+                    );
+
+                    startActivityForResult(
+                            AuthUI.getInstance()
+                                    .createSignInIntentBuilder()
+                                    .setAvailableProviders(providers)
+                                    .setLogo(R.drawable.bnform_widget_icon)
+                                    .setIsSmartLockEnabled(false)
+                                    .build(),
+                            RC_SIGN_IN);
+
+                }
+
+            }
+        };
     }
 
     @Nullable
@@ -66,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
 
         //AppBarConfiguration use the top level destination as root
-        appBarConfiguration = new AppBarConfiguration.Builder(R.id.loginFragment, R.id.lowAlertFragment)
+        appBarConfiguration = new AppBarConfiguration.Builder(R.id.lowAlertFragment)
                 .setOpenableLayout(drawerLayout)
                 .build();
 
@@ -93,10 +122,8 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.loginFragment:
-                Log.i(TAG, "onOptionsItemSelected: Logged out successfully");
                 FirebaseAuth.getInstance().signOut();
                 finish();
-                startActivity(new Intent(this, MainActivity.class));
                 break;
         }
 
@@ -137,4 +164,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //remove listener
+        if(mAuthStateListener != null) {
+            mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //Attach the listener
+        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+    }
+
 }

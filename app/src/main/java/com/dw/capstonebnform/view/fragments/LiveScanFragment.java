@@ -89,14 +89,7 @@ public class LiveScanFragment extends Fragment implements View.OnClickListener {
                 (AnimatorSet) AnimatorInflater.loadAnimator(getContext(), R.animator.bottom_prompt_chip_enter);
         mPromptChipAnimator.setTarget(mFragmentLiveScanBinding.bottomPromptChip);
 
-        mFragmentLiveScanBinding.scanActionBarTop.closeButton.setOnClickListener(this::onClick);
-
         mFragmentLiveScanBinding.scanActionBarTop.flashButton.setOnClickListener(this::onClick);
-
-        mFragmentLiveScanBinding.scanActionBarTop.settingsButton.setOnClickListener(this::onClick);
-
-//        mFragmentLiveScanBinding.scanActionBarTop.fabButton.setOnClickListener(this::onClick);onClick
-
 
         setUpWorkflowModel();
     }
@@ -118,18 +111,6 @@ public class LiveScanFragment extends Fragment implements View.OnClickListener {
                     //TODO UDPATE FLASHMODEL to on
                     mCameraSource.updateFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
                 }
-
-                break;
-
-            case R.id.close_button:
-                //todo Call onBackPressed
-                Log.i(TAG, "onClick: close button");
-                break;
-
-            case R.id.settings_button:
-                mFragmentLiveScanBinding.scanActionBarTop.settingsButton.setEnabled(false);
-                //Todo Create settings fragment
-                Log.i(TAG, "onClick: setting button");
 
                 break;
 
@@ -230,7 +211,6 @@ public class LiveScanFragment extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         mWorkflowModel.markCameraFrozen();
-        mFragmentLiveScanBinding.scanActionBarTop.settingsButton.setEnabled(true);
         mWorkflowState = WorkflowState.NOT_STARTED;
         mCameraSource.setFrameProcessor(new BarcodeScannerProcessor(mFragmentLiveScanBinding.cameraPreviewGraphicOverlay, mWorkflowModel));
         mWorkflowModel.setWorkflowState(WorkflowState.DETECTING);

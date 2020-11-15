@@ -58,7 +58,7 @@ public class LowAlertAdapter extends RecyclerView.Adapter<LowAlertAdapter.LowAle
         //Set Context
         mContext = parent.getContext();
 
-        LowAlertItemsBinding lowAlertItemsBinding = DataBindingUtil.inflate(layoutInflater, R.layout.low_alert_items, parent, false);
+       LowAlertItemsBinding lowAlertItemsBinding = DataBindingUtil.inflate(layoutInflater, R.layout.low_alert_items, parent, false);
 
         return new LowAlertHolder(lowAlertItemsBinding);
     }
@@ -121,6 +121,7 @@ public class LowAlertAdapter extends RecyclerView.Adapter<LowAlertAdapter.LowAle
                         .load(imageUrl)
                         .into(mLowAlertItemsBinding.imageViewLowAlertItemImage);
             }
+
 
 
             mLowAlertItemsBinding.imageViewLowAlertItemImage.setOnClickListener(

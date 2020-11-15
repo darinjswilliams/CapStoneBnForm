@@ -108,6 +108,7 @@
     <string name="sign_out">Successful Logged Out</string>
     <string name="menu_signout">Sign Out</string>
     <string name="login_name">login name</string>
+    <string name="login_cancel">Login Cancel</string>
 
 
 </resources>

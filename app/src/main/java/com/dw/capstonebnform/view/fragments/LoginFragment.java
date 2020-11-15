@@ -25,6 +25,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
+import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 
@@ -32,7 +33,7 @@ public class LoginFragment extends Fragment {
 
     private final static String TAG = LoginFragment.class.getSimpleName();
 
-    private static final int RC_SIGN_IN = 123;
+    private static final int RC_SIGN_IN = 1;
     private Context mContext;
     private NavController navController;
     private NavigationView navigationView;
@@ -97,10 +98,13 @@ public class LoginFragment extends Fragment {
 
 
                 // ...
-            } else {
+            } else if (resultCode == RESULT_CANCELED){
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
-                // response.getError().getErrorCode() and handle the error.
+                Snackbar.make(navigationView.findViewById(R.id.loginFragment), getResources().getString(R.string.login_cancel), Snackbar.LENGTH_SHORT);
+                getActivity().finish();
+
+            } else {
                 Log.i(TAG, "onActivityResult: fail to sign in");
                 if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
                     Snackbar.make(navigationView.findViewById(R.id.loginFragment), getResources().getString(R.string.no_network), Snackbar.LENGTH_SHORT);
