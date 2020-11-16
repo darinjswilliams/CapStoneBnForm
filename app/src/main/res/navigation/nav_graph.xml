@@ -29,7 +29,7 @@
         android:id="@+id/liveScanFragment"
         android:name="com.dw.capstonebnform.view.fragments.LiveScanFragment"
         android:label="@string/live_scan"
-        tools:layout="@layout/fragment_live_scan"></fragment>
+        tools:layout="@layout/fragment_live_scan" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.dw.capstonebnform.view.fragments.LoginFragment"

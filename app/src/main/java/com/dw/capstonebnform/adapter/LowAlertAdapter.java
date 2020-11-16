@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.dw.capstonebnform.R;
@@ -15,6 +16,7 @@ import com.dw.capstonebnform.dto.RecallWithInjuriesAndImagesAndProducts;
 import com.dw.capstonebnform.utils.Constants;
 import com.dw.capstonebnform.widget.BnFormAppWidgetProvider;
 import com.google.gson.Gson;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -119,7 +121,17 @@ public class LowAlertAdapter extends RecyclerView.Adapter<LowAlertAdapter.LowAle
             if (imageUrl != null) {
                 Picasso.get()
                         .load(imageUrl)
-                        .into(mLowAlertItemsBinding.imageViewLowAlertItemImage);
+                        .into(mLowAlertItemsBinding.imageViewLowAlertItemImage, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                mLowAlertItemsBinding.pbLoading.setVisibility(View.INVISIBLE);
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+
+                            }
+                        });
             }
 
 

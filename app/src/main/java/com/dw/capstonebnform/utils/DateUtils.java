@@ -1,15 +1,10 @@
 package com.dw.capstonebnform.utils;
 
-import android.text.format.DateFormat;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.TimeZone;
 
 public class DateUtils {
 
@@ -32,7 +27,7 @@ public class DateUtils {
     public static final DateTimeFormatter DATE_FORMAT_17 = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
     public static final DateTimeFormatter DATE_FORMAT_18 = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
     public static final DateTimeFormatter DATE_FORMAT_19 = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-    public static final Long SIX_MONTHS_BEFORE_CURRENTDATE = new Long(6);
+    public static final Long SIX_MONTHS_BEFORE_CURRENTDATE = 6L;
 
 
     public static String getCurrentDateWithFormatYYYYMMDD() {
@@ -56,60 +51,5 @@ public class DateUtils {
 
         return DATE_FORMAT_3.format(today);
     }
-    /**
-     * @param time in milliseconds (Timestamp)
-     * @param mDateFormat SimpleDateFormat
-     */
-    public static String getDateTimeFromTimeStamp(Long time, String mDateFormat) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(mDateFormat);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Date dateTime = new Date(time);
-        return dateFormat.format(dateTime);
-    }
-    /**
-     * Get Timestamp from date and time
-     *
-     * @param mDateTime datetime String
-     * @param mDateFormat Date Format
-     * @throws ParseException
-     */
-    public static long getTimeStampFromDateTime(String mDateTime, String mDateFormat)
-            throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(mDateFormat);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Date date = dateFormat.parse(mDateTime);
-        return date.getTime();
-    }
-    /**
-     * Return  datetime String from date object
-     *
-     * @param mDateFormat format of date
-     * @param date date object that you want to parse
-     */
-    public static String formatDateTimeFromDate(String mDateFormat, Date date) {
-        if (date == null) {
-            return null;
-        }
-        return DateFormat.format(mDateFormat, date).toString();
-    }
-    /**
-     * Convert one date format string  to another date format string in android
-     *
-     * @param inputDateFormat Input SimpleDateFormat
-     * @param outputDateFormat Output SimpleDateFormat
-     * @param inputDate input Date String
-     * @throws ParseException
-     */
-    public static String formatDateFromDateString(String inputDateFormat, String outputDateFormat,
-                                                  String inputDate) throws ParseException {
-        Date mParsedDate;
-        String mOutputDateString;
-        SimpleDateFormat mInputDateFormat =
-                new SimpleDateFormat(inputDateFormat, java.util.Locale.getDefault());
-        SimpleDateFormat mOutputDateFormat =
-                new SimpleDateFormat(outputDateFormat, java.util.Locale.getDefault());
-        mParsedDate = mInputDateFormat.parse(inputDate);
-        mOutputDateString = mOutputDateFormat.format(mParsedDate);
-        return mOutputDateString;
-    }
+
 }

@@ -102,13 +102,14 @@ public class LoginFragment extends Fragment {
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
                 Snackbar.make(navigationView.findViewById(R.id.loginFragment), getResources().getString(R.string.login_cancel), Snackbar.LENGTH_SHORT);
-                getActivity().finish();
+                signOut();
 
             } else {
                 Log.i(TAG, "onActivityResult: fail to sign in");
                 if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
                     Snackbar.make(navigationView.findViewById(R.id.loginFragment), getResources().getString(R.string.no_network), Snackbar.LENGTH_SHORT);
                 }
+                signOut();
             }
         }
     }
@@ -116,6 +117,7 @@ public class LoginFragment extends Fragment {
     public void signOut() {
         // [START auth_sign_out]
         FirebaseAuth.getInstance().signOut();
+        getActivity().finish();
         // [END auth_sign_out]
     }
 

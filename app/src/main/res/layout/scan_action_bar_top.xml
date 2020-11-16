@@ -17,7 +17,6 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginEnd="8dp"
             android:contentDescription="@string/cd_flash_button"
-            android:outlineAmbientShadowColor="@color/white"
             android:padding="@dimen/top_action_button_padding"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
