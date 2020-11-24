@@ -3,6 +3,9 @@ package com.dw.capstonebnform.persistance;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class AppExecutors {
     // For Singleton instantiation
     private static final Object LOCK = new Object();

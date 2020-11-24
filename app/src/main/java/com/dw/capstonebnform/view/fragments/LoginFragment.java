@@ -1,6 +1,5 @@
 package com.dw.capstonebnform.view.fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,7 +33,6 @@ public class LoginFragment extends Fragment {
     private final static String TAG = LoginFragment.class.getSimpleName();
 
     private static final int RC_SIGN_IN = 1;
-    private Context mContext;
     private NavController navController;
     private NavigationView navigationView;
 
@@ -46,7 +44,6 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext = getContext().getApplicationContext();
     }
 
     @Override

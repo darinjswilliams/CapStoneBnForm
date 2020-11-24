@@ -37,6 +37,7 @@ import com.dw.capstonebnform.upc.Offer;
 import com.dw.capstonebnform.upc.UPCodeSearch;
 import com.dw.capstonebnform.upc.UrlList;
 
+import androidx.annotation.Keep;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -47,6 +48,7 @@ import androidx.room.TypeConverters;
 Manufacturers.class, Product.class, ProductUPC.class, Recall.class, Remedies.class, RemedyOptions.class, Retailers.class,
 Item.class, Offer.class, UrlList.class, UPCodeSearch.class}, version = 3,  exportSchema = false)
 @TypeConverters(DateTypeConverter.class)
+@Keep
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String LOG_TAG = AppDatabase.class.getSimpleName();

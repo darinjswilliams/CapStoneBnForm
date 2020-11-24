@@ -150,7 +150,9 @@ public class MainActivity extends AppCompatActivity {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
+            if(user ==  null) finish();
             super.onBackPressed();
+
         }
     }
 

@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import java.util.List;
 
+import androidx.annotation.Keep;
 import androidx.room.Embedded;
 import androidx.room.Relation;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Keep
 public class RecallWithInjuriesAndImagesAndProducts implements Parcelable {
 
     @Embedded

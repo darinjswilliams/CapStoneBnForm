@@ -19,3 +19,9 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-keep public class com.dw.capstonebnform.dto.RecallWithInjuriesAndImagesAndProducts
+-keep public class com.dw.capstonebnform.adapter.LowAlertAdapter
+-keep class com.squareup.picasso.*
+-dontwarn com.squareup.picasso.**
+
+-printconfiguration /Users/darinwilliams/Downloads/full-r8-config.txt

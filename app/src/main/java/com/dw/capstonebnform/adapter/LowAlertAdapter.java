@@ -26,10 +26,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+@Keep
 public class LowAlertAdapter extends RecyclerView.Adapter<LowAlertAdapter.LowAlertHolder> {
 
     //    final private LowAlertAdapterClickListner mOnItemClickListener;
@@ -114,26 +116,21 @@ public class LowAlertAdapter extends RecyclerView.Adapter<LowAlertAdapter.LowAle
             mLowAlertItemsBinding.titleLowAlertItemTxt.setText(recallItems.recall.getMTitle());
 
 
-            String imageUrl = Stream.of(recallItems).flatMap(list -> list.imagesList.stream().filter(Objects::nonNull)).findFirst()
-                    .map(Images::getUrl).orElse(null);
+            Stream.of(recallItems).flatMap(list -> list.imagesList.stream().filter(Objects::nonNull)).findFirst()
+                     .map(Images::getUrl).ifPresent(imageUrl -> Picasso.get()
+                    .load(imageUrl)
+                    .into(mLowAlertItemsBinding.imageViewLowAlertItemImage, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            mLowAlertItemsBinding.pbLoading.setVisibility(View.INVISIBLE);
+                            Log.i(TAG, "onSuccess: Loading images");
+                        }
 
-
-            if (imageUrl != null) {
-                Picasso.get()
-                        .load(imageUrl)
-                        .into(mLowAlertItemsBinding.imageViewLowAlertItemImage, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                                mLowAlertItemsBinding.pbLoading.setVisibility(View.INVISIBLE);
-                            }
-
-                            @Override
-                            public void onError(Exception e) {
-
-                            }
-                        });
-            }
-
+                        @Override
+                        public void onError(Exception e) {
+                            Log.e(TAG, "onError: Can not Load Images");
+                        }
+                    }));
 
 
             mLowAlertItemsBinding.imageViewLowAlertItemImage.setOnClickListener(
