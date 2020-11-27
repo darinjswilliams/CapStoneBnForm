@@ -24,4 +24,4 @@
 -keep class com.squareup.picasso.*
 -dontwarn com.squareup.picasso.**
 
--printconfiguration /Users/darinwilliams/Downloads/full-r8-config.txt
+#-printconfiguration /Users/darinwilliams/Downloads/full-r8-config.txt

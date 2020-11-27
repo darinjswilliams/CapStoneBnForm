@@ -23,7 +23,7 @@
     <string name="barcode_success">Barcode read successfully</string>
     <string name="barcode_failure">No barcode captured</string>
     <string name="barcode_error">"Error reading barcode: %1$s"</string>
-    <string name="no_camera_permission">No Permission</string>
+    <string name="no_camera_permission">Camera Permission was not granted</string>
     <string name="ok">OK</string>
 
     <!-- Strings for camera settings. -->
@@ -111,4 +111,6 @@
     <string name="login_cancel">Login Cancel</string>
 
 
+    <string name="camera_permisson_requested">Camera Permission is needed to show camera
+    </string>
 </resources>

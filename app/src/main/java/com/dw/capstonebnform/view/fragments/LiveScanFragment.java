@@ -1,13 +1,16 @@
 package com.dw.capstonebnform.view.fragments;
 
+import android.Manifest;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
+import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.dw.capstonebnform.R;
 import com.dw.capstonebnform.analytics.Analytics;
@@ -28,6 +31,7 @@ import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -75,6 +79,26 @@ public class LiveScanFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        if(requestCode == REQUEST_CAMERA){
+
+            //check if only required permission was granted
+            //test with adb pm granted <package name> <permission name>
+            //test with adb pm revoked <package name> <permission name>
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                setUpWorkflowModel();
+            } else {
+                //Camera permission was denied
+                Toast.makeText(getActivity(), getResources().getString(R.string.no_camera_permission), Toast.LENGTH_SHORT).show();
+            }
+        } else {
+
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         mPreview = mFragmentLiveScanBinding.cameraPreviewId;
@@ -91,7 +115,17 @@ public class LiveScanFragment extends Fragment implements View.OnClickListener {
 
         mFragmentLiveScanBinding.scanActionBarTop.flashButton.setOnClickListener(this::onClick);
 
-        setUpWorkflowModel();
+        //check for camera permission
+        if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+            setUpWorkflowModel();
+        }else {
+            if(shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)){
+                Toast.makeText(getActivity(), getResources().getString(R.string.camera_permisson_requested), Toast.LENGTH_SHORT).show();
+            }
+
+
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA);
+        }
     }
 
     @Override
@@ -210,6 +244,7 @@ public class LiveScanFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+        setUpWorkflowModel();
         mWorkflowModel.markCameraFrozen();
         mWorkflowState = WorkflowState.NOT_STARTED;
         mCameraSource.setFrameProcessor(new BarcodeScannerProcessor(mFragmentLiveScanBinding.cameraPreviewGraphicOverlay, mWorkflowModel));

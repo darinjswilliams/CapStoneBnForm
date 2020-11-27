@@ -7,18 +7,17 @@
         <item
             android:id="@+id/lowAlertFragment"
             android:title="Alerts"
-            android:icon="@drawable/googleg_standard_color_18"
+            android:icon="@drawable/icon_alert_drawer"
             />
         <item
             android:id="@+id/liveScanFragment"
             android:title="Scan"
-            android:icon="@drawable/googleg_standard_color_18"
+            android:icon="@drawable/icon_mdpi"
             />
 
         <item
             android:id="@+id/loginFragment"
             android:title="@string/menu_signout"
-            android:icon="@drawable/googleg_standard_color_18"
             />
     </group>
 
