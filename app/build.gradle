@@ -24,7 +24,7 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
+        resConfigs "en"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -57,8 +57,8 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation "com.google.android.material:material:$material_version"
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.browser:browser:1.0.0'
-    implementation 'androidx.cardview:cardview:1.0.0'
+//    implementation 'androidx.browser:browser:1.0.0'
+//    implementation 'androidx.cardview:cardview:1.0.0'
 
     testImplementation 'junit:junit:4.13'
     // Optional -- Robolectric environment
@@ -132,11 +132,11 @@ dependencies {
     implementation "com.firebaseui:firebase-ui-auth:$firebase_authentication_version"
 
     // Import the BoM for the Firebase platform
-    implementation platform('com.google.firebase:firebase-bom:24.7.1')
+//    implementation platform('com.google.firebase:firebase-bom:24.7.1')
 
     // Declare the dependency for the Firebase Authentication library
     // When using the BoM, you don't specify versions in Firebase library dependencies
-    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-auth:20.0.1'
     implementation 'com.google.firebase:firebase-core:18.0.0'
 
     // Also declare the dependency for the Google Play services library and specify its version

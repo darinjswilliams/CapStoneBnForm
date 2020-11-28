@@ -111,6 +111,6 @@
     <string name="login_cancel">Login Cancel</string>
 
 
-    <string name="camera_permisson_requested">Camera Permission is needed to show camera
+    <string name="camera_permisson_requested">Camera Permission is needed to Scan Bar/QR Code
     </string>
 </resources>

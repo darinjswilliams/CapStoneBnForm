@@ -78,6 +78,7 @@ public class LoginFragment extends Fragment {
                         .setAvailableProviders(providers)
                         .setLogo(R.drawable.bnform_widget_icon)
                         .setIsSmartLockEnabled(false)
+                        .setTheme(R.style.AppTheme)
                         .build(),
                 RC_SIGN_IN);
     }
