@@ -9,13 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.dw.capstonebnform.R;
-import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.Arrays;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,42 +42,42 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mFirebaseAuth = FirebaseAuth.getInstance();
+//        mFirebaseAuth = FirebaseAuth.getInstance();
 
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_container);
+        setupNavigation();
 
-
-        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    setupNavigation();
-                } else {
-
-                    List<AuthUI.IdpConfig> providers = Arrays.asList(
-                            new AuthUI.IdpConfig.EmailBuilder().build(),
-                            new AuthUI.IdpConfig.FacebookBuilder().build(),
-                            new AuthUI.IdpConfig.GoogleBuilder().build(),
-                            new AuthUI.IdpConfig.PhoneBuilder().build()
-
-                    );
-
-                    startActivityForResult(
-                            AuthUI.getInstance()
-                                    .createSignInIntentBuilder()
-                                    .setAvailableProviders(providers)
-                                    .setLogo(R.drawable.bnform_widget_icon)
-                                    .setIsSmartLockEnabled(false)
-                                    .setTheme(R.style.AppTheme)
-                                    .build(),
-                            RC_SIGN_IN);
-
-                }
-
-            }
-        };
+//        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+//            @Override
+//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+//                user = firebaseAuth.getCurrentUser();
+//                if (user != null) {
+//                    setupNavigation();
+//                } else {
+//
+//                    List<AuthUI.IdpConfig> providers = Arrays.asList(
+//                            new AuthUI.IdpConfig.EmailBuilder().build(),
+//                            new AuthUI.IdpConfig.FacebookBuilder().build(),
+//                            new AuthUI.IdpConfig.GoogleBuilder().build(),
+//                            new AuthUI.IdpConfig.PhoneBuilder().build()
+//
+//                    );
+//
+//                    startActivityForResult(
+//                            AuthUI.getInstance()
+//                                    .createSignInIntentBuilder()
+//                                    .setAvailableProviders(providers)
+//                                    .setLogo(R.drawable.bnform_widget_icon)
+//                                    .setIsSmartLockEnabled(false)
+//                                    .setTheme(R.style.AppTheme)
+//                                    .build(),
+//                            RC_SIGN_IN);
+//
+//                }
+//
+//            }
+//        };
     }
 
     @Nullable
@@ -123,8 +119,8 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.loginFragment:
-                FirebaseAuth.getInstance().signOut();
-                finish();
+//                FirebaseAuth.getInstance().signOut();
+//                finish();
                 break;
         }
 
@@ -150,11 +146,12 @@ public class MainActivity extends AppCompatActivity {
         //Handle the back button pressed on device
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            if(user ==  null) finish();
-            super.onBackPressed();
-
         }
+//        else {
+//            if(user ==  null) finish();
+//            super.onBackPressed();
+//
+//        }
     }
 
     @Override
@@ -172,16 +169,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         //remove listener
-        if(mAuthStateListener != null) {
-            mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
-        }
+//        if(mAuthStateListener != null) {
+//            mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
+//        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         //Attach the listener
-        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+//        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
     }
 
 }

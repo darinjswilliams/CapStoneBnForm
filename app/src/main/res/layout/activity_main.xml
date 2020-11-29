@@ -24,7 +24,6 @@
                 android:id="@+id/user_name_tool_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name"
                 android:textSize="@dimen/twentyfourSp_padding" />
         </androidx.appcompat.widget.Toolbar>
 

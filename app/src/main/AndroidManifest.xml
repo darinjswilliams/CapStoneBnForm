@@ -40,7 +40,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+<!--
         <activity android:name="com.google.firebase.auth.internal.FederatedSignInActivity"
             tools:replace="android:launchMode"
             android:launchMode="standard"/>
@@ -63,7 +63,7 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
+-->
 
 
         <service android:name=".widget.BnFormAppWidgetService"
