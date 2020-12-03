@@ -12,11 +12,11 @@
         <item
             android:id="@+id/liveScanFragment"
             android:title="Scan"
-            android:icon="@drawable/icon_mdpi"
+            android:icon="@drawable/icon_barcodefinder"
             />
 
         <item
-            android:id="@+id/loginFragment"
+            android:id="@+id/loginOut"
             android:title="@string/menu_signout"
             />
     </group>

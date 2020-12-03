@@ -12,8 +12,7 @@
         tools:layout="@layout/fragment_low_alert">
         <action
             android:id="@+id/action_lowAlertFragment_to_recallDetailFragment"
-            app:destination="@id/recallDetailFragment_dest"
-            app:popUpToInclusive="false" />
+            app:destination="@id/recallDetailFragment_dest" />
     </fragment>
     <fragment
         android:id="@+id/recallDetailFragment_dest"
@@ -30,8 +29,4 @@
         android:name="com.dw.capstonebnform.view.fragments.LiveScanFragment"
         android:label="@string/live_scan"
         tools:layout="@layout/fragment_live_scan" />
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.dw.capstonebnform.view.fragments.LoginFragment"
-        tools:layout="@layout/fragment_login" />
 </navigation>

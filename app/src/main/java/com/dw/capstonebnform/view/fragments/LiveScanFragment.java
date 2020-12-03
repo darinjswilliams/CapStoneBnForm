@@ -56,7 +56,6 @@ public class LiveScanFragment extends Fragment implements View.OnClickListener {
     boolean useFlash = false;
     private View settingsButton;
     private View flashButton;
-    private String gUrl = "http://www.google.com/";
 
 
     public LiveScanFragment() {
@@ -66,6 +65,7 @@ public class LiveScanFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
 
@@ -229,10 +229,11 @@ public class LiveScanFragment extends Fragment implements View.OnClickListener {
 
                 getViewLifecycleOwner(),
                 barcode -> {
+                    mFragmentLiveScanBinding.scanActionBarTop.flashButton.setVisibility(View.INVISIBLE);
                     ArrayList<BarcodeField> barcodeFieldList = new ArrayList<>();
                     barcodeFieldList.add(new BarcodeField(getResources().getString(R.string.product_upc), barcode.getRawValue()));
                     BarcodeResultFragment.show(getParentFragmentManager(), barcodeFieldList);
-//                    searchWeb(gUrl + barcode.getRawValue());
+
                     //Send Scanned Product Event to Firebase Analytics
                     Analytics.logEventScanActivity(getContext(), getResources().getString(R.string.scanned));
                 }

@@ -1,17 +1,25 @@
 package com.dw.capstonebnform.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.dw.capstonebnform.R;
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.ErrorCodes;
+import com.firebase.ui.auth.IdpResponse;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Arrays;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private Toolbar toolBar;
     private AppBarConfiguration appBarConfiguration;
-    private FirebaseUser user;
+//    private FirebaseUser user;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private static final int RC_SIGN_IN = 1;
@@ -42,42 +50,73 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        mFirebaseAuth = FirebaseAuth.getInstance();
+        //Initialize firebase authetication
+        mFirebaseAuth = FirebaseAuth.getInstance();
+
 
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_container);
-        setupNavigation();
 
-//        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-//            @Override
-//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-//                user = firebaseAuth.getCurrentUser();
-//                if (user != null) {
-//                    setupNavigation();
-//                } else {
-//
-//                    List<AuthUI.IdpConfig> providers = Arrays.asList(
-//                            new AuthUI.IdpConfig.EmailBuilder().build(),
-//                            new AuthUI.IdpConfig.FacebookBuilder().build(),
-//                            new AuthUI.IdpConfig.GoogleBuilder().build(),
-//                            new AuthUI.IdpConfig.PhoneBuilder().build()
-//
-//                    );
-//
-//                    startActivityForResult(
-//                            AuthUI.getInstance()
-//                                    .createSignInIntentBuilder()
-//                                    .setAvailableProviders(providers)
-//                                    .setLogo(R.drawable.bnform_widget_icon)
-//                                    .setIsSmartLockEnabled(false)
-//                                    .setTheme(R.style.AppTheme)
-//                                    .build(),
-//                            RC_SIGN_IN);
-//
-//                }
-//
-//            }
-//        };
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser  user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    //User is signed in
+                    Toast.makeText(MainActivity.this, "You have successfully signed In", Toast.LENGTH_SHORT).show();
+                    setupNavigation();
+                } else {
+                    //user is signed out, so start sign in flow
+
+                    List<AuthUI.IdpConfig> providers = Arrays.asList(
+                            new AuthUI.IdpConfig.EmailBuilder().build(),
+                            new AuthUI.IdpConfig.GoogleBuilder().build(),
+                            new AuthUI.IdpConfig.PhoneBuilder().build()
+
+                    );
+
+                    startActivityForResult(
+                            AuthUI.getInstance()
+                                    .createSignInIntentBuilder()
+                                    .setAvailableProviders(providers)
+                                    .setLogo(R.drawable.bnform_widget_icon)
+                                    .setIsSmartLockEnabled(false)
+                                    .setTheme(R.style.AppTheme)
+                                    .build(),
+                            RC_SIGN_IN);
+
+                }
+
+            }
+        };
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            IdpResponse response = IdpResponse.fromResultIntent(data);
+
+
+            if (resultCode == RESULT_OK) {
+
+             setupNavigation();
+                // ...
+            } else if (resultCode == RESULT_CANCELED){
+                // Sign in failed. If response is null the user canceled the
+                // sign-in flow using the back button. Otherwise check
+                Toast.makeText(this, getResources().getString(R.string.login_cancel), Toast.LENGTH_SHORT).show();
+                finish();
+
+            } else {
+                Log.i(TAG, "onActivityResult: fail to sign in");
+                if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
+                    Toast.makeText(this,getResources().getString(R.string.no_network), Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+
+            }
+        }
     }
 
     @Nullable
@@ -118,9 +157,9 @@ public class MainActivity extends AppCompatActivity {
         item.setChecked(true);
 
         switch (item.getItemId()) {
-            case R.id.loginFragment:
-//                FirebaseAuth.getInstance().signOut();
-//                finish();
+            case R.id.loginOut:
+                FirebaseAuth.getInstance().signOut();
+                finish();
                 break;
         }
 
@@ -134,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
                 || super.onOptionsItemSelected(item);
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -143,15 +183,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
+
         //Handle the back button pressed on device
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         }
-//        else {
-//            if(user ==  null) finish();
-//            super.onBackPressed();
-//
-//        }
+        else {
+            if (mAuthStateListener != null)
+                finish();
+
+        }
     }
 
     @Override
@@ -169,16 +211,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         //remove listener
-//        if(mAuthStateListener != null) {
-//            mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
-//        }
+        if (mAuthStateListener != null) {
+            mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         //Attach the listener
-//        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+    }
+
+    private void signOut(){
+        AuthUI.getInstance().signOut(this);
     }
 
 }

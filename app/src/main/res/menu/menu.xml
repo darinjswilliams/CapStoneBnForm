@@ -11,7 +11,7 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/loginFragment"
+        android:id="@+id/loginOut"
         android:enabled="true"
         android:orderInCategory="200"
         android:title="@string/menu_signout"
