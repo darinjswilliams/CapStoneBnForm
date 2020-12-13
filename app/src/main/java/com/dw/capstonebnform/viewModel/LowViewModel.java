@@ -1,9 +1,11 @@
 package com.dw.capstonebnform.viewModel;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.dw.capstonebnform.dto.RecallWithInjuriesAndImagesAndProducts;
 import com.dw.capstonebnform.dto.RecallWithProductsAndImages;
+import com.dw.capstonebnform.dto.SearchRecallProducts;
 import com.dw.capstonebnform.network.AppRepository;
 
 import java.util.List;
@@ -18,7 +20,7 @@ public class LowViewModel extends AndroidViewModel {
     private List<RecallWithProductsAndImages> mRecallProductandImages;
     private AppRepository appRepo;
     private LiveData<List<RecallWithInjuriesAndImagesAndProducts>>  mRecallWithInjuriesAndImagesAndProducts;
-    private boolean productIsOnRecall;
+    private LiveData<List<SearchRecallProducts>> productIsOnRecallList;
 
     public LowViewModel(@NonNull Application application) {
         super(application);
@@ -30,7 +32,8 @@ public class LowViewModel extends AndroidViewModel {
     public LowViewModel(@NonNull AppRepository appRepo, String productName, Application application) {
         super(application);
         this.appRepo = appRepo;
-         productIsOnRecall = appRepo.searchRecallWithProductName(productName);
+        Log.d(TAG, "LowViewModel: Here is the RecallDescription.. " + productName);
+         productIsOnRecallList = appRepo.retrieveSearchRecallProducts(productName);
     }
 
     public LiveData<List<RecallWithInjuriesAndImagesAndProducts>> getmRecallWithInjuriesAndImagesAndProducts(){
@@ -38,8 +41,11 @@ public class LowViewModel extends AndroidViewModel {
     }
 
 
-    public boolean isProductIsOnRecall(){
-        return productIsOnRecall;
+    public LiveData<List<SearchRecallProducts>> findRecallProducts(){
+        Log.d(TAG, "isProductIsOnRecall: " + productIsOnRecallList.getValue().size());
+        return productIsOnRecallList;
     }
+
+
 
 }

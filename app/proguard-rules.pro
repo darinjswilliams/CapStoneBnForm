@@ -21,7 +21,41 @@
 #-renamesourcefileattribute SourceFile
 -keep public class com.dw.capstonebnform.dto.RecallWithInjuriesAndImagesAndProducts
 -keep public class com.dw.capstonebnform.adapter.LowAlertAdapter
--keep class com.squareup.picasso.*
--dontwarn com.squareup.picasso.**
+# Picasso
+-dontwarn com.squareup.okhttp.**
+
+# Needed for Parcelable/SafeParcelable Creators to not get stripped
+-keepnames class * implements android.os.Parcelable {
+    public static final ** CREATOR;
+}
+
+# retrofit
+-dontwarn okio.**
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class com.squareup.okhttp.* { *; }
+-keep interface com.squareup.okhttp.* { *; }
+
+-dontwarn rx.**
+-dontwarn retrofit.**
+-keep class retrofit.* { *; }
+-keepclasseswithmembers class * {
+    @retrofit.http.* <methods>;
+}
+
+-dontwarn com.squareup.okhttp.**
+-renamesourcefileattribute SourceFile
+-keepattributes SourceFile,LineNumberTable
+
+-verbose
+
+-dump obfuscation/class_files.txt
+-printseeds obfuscation/seeds.txt
+
+#Files that are stripped
+-printusage obfuscation/unused.txt
+#Files that are not stripped
+-printmapping obfuscation/mapping.txt
+
 
 #-printconfiguration /Users/darinwilliams/Downloads/full-r8-config.txt

@@ -1,6 +1,7 @@
 package com.dw.capstonebnform.network;
 
 import com.dw.capstonebnform.dto.Recall;
+import com.dw.capstonebnform.dto.SearchRecallProducts;
 import com.dw.capstonebnform.utils.Constants;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public interface RecallApi {
     Call<List<Recall>> getProductsAndImages();
 
     @GET(Constants.SEARCH_RECALL_BY_NAME)
-    Call<List<Recall>> searchForRecallByName(@Query("ProductName") String productName);
+    Call<List<SearchRecallProducts>> searchForRecallByName(@Query("RecallDescription") String productName);
 }
 
 

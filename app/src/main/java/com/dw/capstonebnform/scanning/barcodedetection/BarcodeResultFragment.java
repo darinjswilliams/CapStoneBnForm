@@ -12,8 +12,10 @@ import android.view.ViewGroup;
 import com.dw.capstonebnform.R;
 import com.dw.capstonebnform.analytics.Analytics;
 import com.dw.capstonebnform.databinding.BarcodeBottomSheetBinding;
+import com.dw.capstonebnform.dto.SearchRecallProducts;
 import com.dw.capstonebnform.dto.UpcWithOfferItemList;
 import com.dw.capstonebnform.scanning.camera.WorkflowModel;
+import com.dw.capstonebnform.upc.Item;
 import com.dw.capstonebnform.utils.InjectorUtils;
 import com.dw.capstonebnform.viewModel.LowViewModel;
 import com.dw.capstonebnform.viewModel.SearchRecallViewModelFactory;
@@ -47,9 +49,12 @@ public class BarcodeResultFragment extends BottomSheetDialogFragment {
 
     private String barCodeUpcNumber;
 
-    private List<UpcWithOfferItemList> searchRecallWithProductNameList = new ArrayList<>();
+    private List<Item> searchRecallWithProductNameList = new ArrayList<>();
+    private List<UpcWithOfferItemList> mSearchRecallWithProductNameList = new ArrayList<>();
 
-    private String productName;
+    private  List<SearchRecallProducts> productsFoundOnRecallList = new ArrayList<>();
+
+    private ArrayList<BarcodeField> barcodeFieldList;
 
     public static void show(
             FragmentManager fragmentManager, ArrayList<BarcodeField> barcodeFieldArrayList) {
@@ -71,21 +76,8 @@ public class BarcodeResultFragment extends BottomSheetDialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SearchViewModelFactory searchViewModelFactory = InjectorUtils.provideSearchViewModelFactory(getActivity().getApplication(), barCodeUpcNumber);
 
-        mSearchUPCViewModel = new ViewModelProvider(this, searchViewModelFactory).get(SearchUPCViewModel.class);
-    }
 
-    @Nullable
-    @Override
-    public View onCreateView(
-            @NonNull LayoutInflater layoutInflater,
-            @Nullable ViewGroup viewGroup,
-            @Nullable Bundle bundle) {
-
-        barcodeBottomSheetBinding = DataBindingUtil.inflate(layoutInflater, R.layout.barcode_bottom_sheet, viewGroup, false);
-
-        ArrayList<BarcodeField> barcodeFieldList;
         Bundle arguments = getArguments();
         if (arguments != null && arguments.containsKey(ARG_BARCODE_FIELD_LIST)) {
             barcodeFieldList = arguments.getParcelableArrayList(ARG_BARCODE_FIELD_LIST);
@@ -95,6 +87,22 @@ public class BarcodeResultFragment extends BottomSheetDialogFragment {
             barcodeFieldList = new ArrayList<>();
         }
 
+        setUpViewModels();
+
+
+
+
+    }
+
+
+    @Nullable
+    @Override
+    public View onCreateView(
+            @NonNull LayoutInflater layoutInflater,
+            @Nullable ViewGroup viewGroup,
+            @Nullable Bundle bundle) {
+
+        barcodeBottomSheetBinding = DataBindingUtil.inflate(layoutInflater, R.layout.barcode_bottom_sheet, viewGroup, false);
 
         barcodeBottomSheetBinding.barcodeFieldRecyclerView.setHasFixedSize(true);
         barcodeBottomSheetBinding.barcodeFieldRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -107,32 +115,42 @@ public class BarcodeResultFragment extends BottomSheetDialogFragment {
             }
         });
 
-
+//        searchRecallWithProductNameList = mSearchUPCViewModel.getmUPCwithOfferItemListLiveData().getValue().get(0).itemList;
 
         mSearchUPCViewModel.getmUPCwithOfferItemListLiveData().observe(this, upCode -> {
-
-//            Log.d(TAG, "onCreateView: Search UPC size.." + upCode.size());
-//            Log.d(TAG, "onCreateView: Brand Name..." + upCode.get(0).itemList.get(0).getBrand() );
+            Log.d(TAG, "setUpViewModels: Search for UPC with upcItemDB API");
+            searchRecallWithProductNameList = upCode.stream().map(UpcWithOfferItemList::getItemList).findFirst().orElse(null);
             searchRecallWithProductNameList = upCode.stream().filter(upc -> upc.itemList.size() > 0).collect(Collectors.toList());
-//            searchRecallWithProductName = upCode.get(0).itemList.get(0).getBrand();
+//            searchRecallWithProductNameList = upCode.stream().filter(upc -> upc.itemList.size() > 0).collect(Collectors.toList());
         });
-
-        if(searchRecallWithProductNameList.size() > 0){
-            productName = searchRecallWithProductNameList.get(0).itemList.get(0).getBrand();
-        }
-
-        SearchRecallViewModelFactory searchRecallViewModelFactory = InjectorUtils.provideSearchRecallViewModelFactory(getActivity().getApplication(), productName);
+        searchRecallWithProductNameList.get(0).itemList.get(0).getBrand();
+        //After Searching for a Valid BarCode, Call the RecallApi to verify if product is on Recall
+        SearchRecallViewModelFactory searchRecallViewModelFactory = InjectorUtils.provideSearchRecallViewModelFactory(getActivity().getApplication(),  searchRecallWithProductNameList.get(0).getBrand());
         mSearchLowViewModel = new ViewModelProvider(this, searchRecallViewModelFactory).get(LowViewModel.class);
 
-        Log.i(TAG, "onCreateView: IS PRODUCT ON RECALL" + mSearchLowViewModel.isProductIsOnRecall() );
-        if(mSearchLowViewModel.isProductIsOnRecall()){
-            Log.i(TAG, "onCreateView: PRODUCT IS NOT ON RECALL SHOW HAPPY FACE");
-            barcodeBottomSheetBinding.happyEmoji.setVisibility(View.VISIBLE);
-            barcodeBottomSheetBinding.sadEmoji.setVisibility(View.GONE);
-        } else {
+
+        mSearchLowViewModel.findRecallProducts().observe( this, productName -> {
+            Log.d(TAG, "setUpViewModels: Search for RecallDescription with RecallApi");
+            productsFoundOnRecallList = productName.stream().collect(Collectors.toList());
+
+        });
+
+
+
+
+        Log.i(TAG, "onCreateView: IS PRODUCT ON RECALL" + mSearchLowViewModel.findRecallProducts() );
+        if(productsFoundOnRecallList.size() > 0){
             Log.i(TAG, "onCreateView: PRODUCT IS ON RECALL SHOW SAD FACE");
             barcodeBottomSheetBinding.happyEmoji.setVisibility(View.GONE);
             barcodeBottomSheetBinding.sadEmoji.setVisibility(View.VISIBLE);
+
+        } else {
+
+            Log.i(TAG, "onCreateView: PRODUCT IS NOT ON RECALL SHOW HAPPY FACE");
+            barcodeBottomSheetBinding.happyEmoji.setVisibility(View.VISIBLE);
+            barcodeBottomSheetBinding.sadEmoji.setVisibility(View.GONE);
+
+
         }
 
         return barcodeBottomSheetBinding.getRoot();
@@ -168,6 +186,20 @@ public class BarcodeResultFragment extends BottomSheetDialogFragment {
             startActivity(intent);
         }
     }
+
+    private void setUpViewModels() {
+        //Search for BarCode calling first Api
+        SearchViewModelFactory searchViewModelFactory = InjectorUtils.provideSearchViewModelFactory(getActivity().getApplication(), barCodeUpcNumber);
+
+        mSearchUPCViewModel = new ViewModelProvider(this, searchViewModelFactory).get(SearchUPCViewModel.class);
+
+
+
+
+
+    }
+    
+    
 
 
 }

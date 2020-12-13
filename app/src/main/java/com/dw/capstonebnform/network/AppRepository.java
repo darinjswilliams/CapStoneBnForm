@@ -9,6 +9,7 @@ import com.dw.capstonebnform.dto.Product;
 import com.dw.capstonebnform.dto.Recall;
 import com.dw.capstonebnform.dto.RecallWithInjuriesAndImagesAndProducts;
 import com.dw.capstonebnform.dto.RecallWithProductsAndImages;
+import com.dw.capstonebnform.dto.SearchRecallProducts;
 import com.dw.capstonebnform.persistance.AppDatabase;
 import com.dw.capstonebnform.persistance.AppExecutors;
 import com.dw.capstonebnform.utils.DateUtils;
@@ -36,11 +37,13 @@ public class AppRepository {
     private RecallApi mRecallApi;
     private Retrofit retrofit;
     private Call<List<Recall>> call;
+    private Call<List<SearchRecallProducts>> callSearchProducts;
 
     //Database Objects
     private List<Product> mProductList = new ArrayList<>();
     private List<Images> mImagesList  = new ArrayList<>();
     private List<Recall> mRecallList = new ArrayList<>();
+    private List<SearchRecallProducts> mVerifyRecallProductList = new ArrayList<>();
     Map<Integer, List<Product>> productMap = new HashMap<>();
     Map<Integer, List<Images>> imageMap = new HashMap<>();
     Map<Integer, List<Injuries>> injuriesMap = new HashMap<>();
@@ -124,18 +127,34 @@ public class AppRepository {
             public void run() {
 
                 //Recall List
-                appDatabase.recallDAO().insertTask(mRecallList);
-                Log.d(TAG, "RecallDAO: Insert: " + mRecallList.size());
+                if(mRecallList.size() > 0) {
+                    appDatabase.recallDAO().insertTask(mRecallList);
+                    Log.d(TAG, "RecallDAO: Insert: " + mRecallList.size());
+                }
+
                 //Images
-                appDatabase.imagesDAO().insertTask(imageMap);
-                Log.d(TAG, "ImagesDAO: Insert:" + imageMap.values().size() );
+                if(imageMap.values().size() > 0) {
+                    appDatabase.imagesDAO().insertTask(imageMap);
+                    Log.d(TAG, "ImagesDAO: Insert:" + imageMap.values().size());
+                }
 
                 //Injuries
-                appDatabase.injuriesDAO().insertTask(injuriesMap);
-                Log.i(TAG, "InjuriesDAO: Insert " + injuriesMap.values().size());;
+                if(injuriesMap.values().size() > 0) {
+                    appDatabase.injuriesDAO().insertTask(injuriesMap);
+                    Log.i(TAG, "InjuriesDAO: Insert " + injuriesMap.values().size());
+                }
+
                 //Products
-                appDatabase.productsDAO().insertTask(productMap);
-                Log.d(TAG, "ProductDAOL Insert:" + productMap.values().size());
+                if(productMap.values().size() > 0) {
+                    appDatabase.productsDAO().insertTask(productMap);
+                    Log.d(TAG, "ProductDAOL Insert:" + productMap.values().size());
+                }
+
+                //SearchRecallProducts
+                if(mVerifyRecallProductList.size() > 0){
+                    appDatabase.searchRecallProductsDAO().insertTask(mVerifyRecallProductList);
+                    Log.d(TAG, "SearchRecallProductsDAO Insert:  " + mVerifyRecallProductList.size());
+                }
             }
         });
     }
@@ -154,33 +173,40 @@ public class AppRepository {
         return appDatabase.recallDAO().getRecallWithInjuriesAndImagesAndProducts();
     }
 
-    public boolean searchRecallWithProductName(String productName){
 
-        List<Recall> verifyRecallProductList = new ArrayList<>();
-        call = mRecallApi.searchForRecallByName(productName);
 
-        call.enqueue(new Callback<List<Recall>>() {
+    public LiveData<List<SearchRecallProducts>> retrieveSearchRecallProducts(String description){
+        Log.d(TAG, "getRecallWithInjuriesAndImagesAndProducts: ");
+
+        searchRecallWithProductName(description);
+
+        return appDatabase.searchRecallProductsDAO().getSearchProductsByDescription(description);
+    }
+
+    public void searchRecallWithProductName(String productName){
+
+        callSearchProducts = mRecallApi.searchForRecallByName(productName);
+
+        callSearchProducts.enqueue(new Callback<List<SearchRecallProducts>>() {
             @Override
-            public void onResponse(Call<List<Recall>> call, Response<List<Recall>> response) {
+            public void onResponse(@NonNull Call<List<SearchRecallProducts>> call, @NonNull Response<List<SearchRecallProducts>> response) {
 
                 if(response.isSuccessful()){
 
-                    List<Recall> recallList = response.body();
-                    verifyRecallProductList.addAll(recallList);
-                    Log.i(TAG, "onResponse: RecallSize: Boolean... " + verifyRecallProductList.size() );
+                    List<SearchRecallProducts> searchRecallList = response.body();
+                    mVerifyRecallProductList.addAll(searchRecallList);
+                    Log.i(TAG, "onResponse: RecallSize: Boolean... " + mVerifyRecallProductList.size() );
 
+                    insertTask();
 
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Recall>> call, Throwable t) {
+            public void onFailure(Call<List<SearchRecallProducts>> call, Throwable t) {
                 Log.d(TAG, "onFailure: ");
             }
         });
-
-        //Checks if an array of Objects is empty or null.
-        return  verifyRecallProductList.isEmpty();
 
     }
 

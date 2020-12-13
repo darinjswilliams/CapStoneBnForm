@@ -16,6 +16,7 @@ import com.dw.capstonebnform.dao.ProductsDAO;
 import com.dw.capstonebnform.dao.RecallDAO;
 import com.dw.capstonebnform.dao.RemediesDAO;
 import com.dw.capstonebnform.dao.RetailersDAO;
+import com.dw.capstonebnform.dao.SearchRecallDAO;
 import com.dw.capstonebnform.dao.UPCodeSearchDAO;
 import com.dw.capstonebnform.dao.UrlListDAO;
 import com.dw.capstonebnform.dto.Distributors;
@@ -32,6 +33,7 @@ import com.dw.capstonebnform.dto.Recall;
 import com.dw.capstonebnform.dto.Remedies;
 import com.dw.capstonebnform.dto.RemedyOptions;
 import com.dw.capstonebnform.dto.Retailers;
+import com.dw.capstonebnform.dto.SearchRecallProducts;
 import com.dw.capstonebnform.upc.Item;
 import com.dw.capstonebnform.upc.Offer;
 import com.dw.capstonebnform.upc.UPCodeSearch;
@@ -45,8 +47,8 @@ import androidx.room.TypeConverters;
 
 //ADD THE TYPE CONVERTERS SO ROOM KNOWS HOW TO DEAL WITH List CONVERSION
 @Database(entities = {Distributors.class, Hazards.class, Images.class, Importers.class, Inconjuctions.class, Injuries.class, ManufacturerCountries.class,
-Manufacturers.class, Product.class, ProductUPC.class, Recall.class, Remedies.class, RemedyOptions.class, Retailers.class,
-Item.class, Offer.class, UrlList.class, UPCodeSearch.class}, version = 3,  exportSchema = false)
+Manufacturers.class, Product.class, ProductUPC.class, Recall.class, Remedies.class, RemedyOptions.class, Retailers.class, SearchRecallProducts.class,
+Item.class, Offer.class, UrlList.class, UPCodeSearch.class}, version = 4,  exportSchema = false)
 @TypeConverters(DateTypeConverter.class)
 @Keep
 public abstract class AppDatabase extends RoomDatabase {
@@ -90,5 +92,5 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract OfferDAO offerDAO();
     public abstract UrlListDAO urlListDAO();
     public abstract UPCodeSearchDAO upCodeSearchDAO();
-
+    public abstract SearchRecallDAO searchRecallProductsDAO();
 }

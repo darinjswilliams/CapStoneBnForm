@@ -16,8 +16,9 @@
             />
 
         <item
-            android:id="@+id/loginOut"
-            android:title="@string/menu_signout"
+            android:id="@+id/newsForum"
+            android:title="@string/menu_news"
+            android:icon="@drawable/icon_news_drawer"
             />
     </group>
 

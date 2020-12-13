@@ -12,8 +12,8 @@ public class SearchViewModelFactory extends ViewModelProvider.NewInstanceFactory
 
 
     public SearchViewModelFactory(UpcRepository upcRepository, String mUpc) {
-        this.mUpc = mUpc;
         this.upcRepository = upcRepository;
+        this.mUpc = mUpc;
     }
 
     @NonNull

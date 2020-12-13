@@ -2,6 +2,7 @@ package com.dw.capstonebnform.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.dw.capstonebnform.R;
+import com.dw.capstonebnform.utils.Constants;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
@@ -161,6 +163,10 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 finish();
                 break;
+
+            case R.id.newsForum:
+                openWebPage(Constants.RECALL_NEWS);
+                break;
         }
 
 
@@ -172,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.onNavDestinationSelected(item, navController)
                 || super.onOptionsItemSelected(item);
     }
+
 
 
     @Override
@@ -225,6 +232,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void signOut(){
         AuthUI.getInstance().signOut(this);
+    }
+
+    private void openWebPage(String url){
+
+        //Close drawer
+//        drawerLayout.closeDrawer(GravityCompat.START);
+
+        Uri webpage = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 
 }

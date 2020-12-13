@@ -22,5 +22,7 @@ public class Constants {
     public static final String UPC_BASE_URL = "https://api.upcitemdb.com/prod/trial/";
     public static final String UPC_LOOKUP = "lookup";
 
+    //TODO QUERY FOR SPECIFIC PRODUCT
     public static final String SEARCH_RECALL_BY_NAME = "RestWebServices/Recall?format=json" ;
+    public static final String RECALL_NEWS = "https://www.cpsc.gov/Newsroom";
 }
