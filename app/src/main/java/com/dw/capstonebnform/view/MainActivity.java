@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private Toolbar toolBar;
     private AppBarConfiguration appBarConfiguration;
-//    private FirebaseUser user;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private static final int RC_SIGN_IN = 1;
@@ -57,45 +56,43 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        navController = Navigation.findNavController(this, R.id.nav_host_fragment_container);
 
-        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser  user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    //User is signed in
-                    Toast.makeText(MainActivity.this, "You have successfully signed In", Toast.LENGTH_SHORT).show();
-                    setupNavigation();
-                } else {
-                    //user is signed out, so start sign in flow
+        mAuthStateListener = firebaseAuth -> {
+            FirebaseUser  user = firebaseAuth.getCurrentUser();
+            if (user != null) {
+                //User is signed in
+                Toast.makeText(MainActivity.this, "You have successfully signed In", Toast.LENGTH_SHORT).show();
+                setupNavigation();
+            } else {
+                //user is signed out, so start sign in flow
 
-                    List<AuthUI.IdpConfig> providers = Arrays.asList(
-                            new AuthUI.IdpConfig.EmailBuilder().build(),
-                            new AuthUI.IdpConfig.GoogleBuilder().build(),
-                            new AuthUI.IdpConfig.PhoneBuilder().build()
+                List<AuthUI.IdpConfig> providers = Arrays.asList(
+                        new AuthUI.IdpConfig.EmailBuilder().build(),
+                        new AuthUI.IdpConfig.GoogleBuilder().build(),
+                        new AuthUI.IdpConfig.FacebookBuilder().build(),
+                        new AuthUI.IdpConfig.PhoneBuilder().build()
 
-                    );
+                );
 
-                    startActivityForResult(
-                            AuthUI.getInstance()
-                                    .createSignInIntentBuilder()
-                                    .setAvailableProviders(providers)
-                                    .setLogo(R.drawable.bnform_widget_icon)
-                                    .setIsSmartLockEnabled(false)
-                                    .setTheme(R.style.AppTheme)
-                                    .build(),
-                            RC_SIGN_IN);
-
-                }
+                startActivityForResult(
+                        AuthUI.getInstance()
+                                .createSignInIntentBuilder()
+                                .setAvailableProviders(providers)
+                                .setLogo(R.drawable.bnform_widget_icon)
+                                .setIsSmartLockEnabled(false)
+                                .setTheme(R.style.AppTheme)
+                                .build(),
+                        RC_SIGN_IN);
 
             }
+
         };
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, String.format(String.format("onActivityResult: " + requestCode)));
         if (requestCode == RC_SIGN_IN) {
             IdpResponse response = IdpResponse.fromResultIntent(data);
 
@@ -129,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupNavigation() {
 
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment_container);
 
         drawerLayout = findViewById(R.id.drawer_layout);
 

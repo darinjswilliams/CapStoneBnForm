@@ -24,7 +24,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class UpcRepository {
+public class UpcRepository  {
 
     private static final String TAG = UpcRepository.class.getSimpleName();
 
@@ -40,26 +40,22 @@ public class UpcRepository {
     private AppDatabase appDatabase;
     private AppExecutors mAppExecutors;
 
-    public static  UpcRepository getInstance(Application application, AppExecutors appExecutors){
+    public static  UpcRepository getInstance(Application application){
         if(ourInstance == null){
 
-            ourInstance = new UpcRepository(application, appExecutors);
+            ourInstance = new UpcRepository(application);
         }
         return  ourInstance;
     }
 
-    public UpcRepository(Application application, AppExecutors appExecutors) {
+    public UpcRepository(Application application) {
 
         retrofit = UpcClient.getClient();
         mUpcApi = retrofit.create(UPCApi.class);
 
         appDatabase = AppDatabase.getsInstance(application);
+        mAppExecutors = AppExecutors.getInstance();
 
-        if(appExecutors == null) {
-            mAppExecutors = AppExecutors.getInstance();
-        } else {
-            mAppExecutors = appExecutors;
-        }
     }
 
 

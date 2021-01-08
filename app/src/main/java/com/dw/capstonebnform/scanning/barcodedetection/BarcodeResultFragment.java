@@ -90,8 +90,6 @@ public class BarcodeResultFragment extends BottomSheetDialogFragment {
         setUpViewModels();
 
 
-
-
     }
 
 
@@ -115,17 +113,12 @@ public class BarcodeResultFragment extends BottomSheetDialogFragment {
             }
         });
 
-//        searchRecallWithProductNameList = mSearchUPCViewModel.getmUPCwithOfferItemListLiveData().getValue().get(0).itemList;
 
-        mSearchUPCViewModel.getmUPCwithOfferItemListLiveData().observe(this, upCode -> {
-            Log.d(TAG, "setUpViewModels: Search for UPC with upcItemDB API");
-            searchRecallWithProductNameList = upCode.stream().map(UpcWithOfferItemList::getItemList).findFirst().orElse(null);
-            searchRecallWithProductNameList = upCode.stream().filter(upc -> upc.itemList.size() > 0).collect(Collectors.toList());
-//            searchRecallWithProductNameList = upCode.stream().filter(upc -> upc.itemList.size() > 0).collect(Collectors.toList());
-        });
-        searchRecallWithProductNameList.get(0).itemList.get(0).getBrand();
         //After Searching for a Valid BarCode, Call the RecallApi to verify if product is on Recall
-        SearchRecallViewModelFactory searchRecallViewModelFactory = InjectorUtils.provideSearchRecallViewModelFactory(getActivity().getApplication(),  searchRecallWithProductNameList.get(0).getBrand());
+       Item itemProduct = searchRecallWithProductNameList.stream().filter(itemList -> itemList.getBrand().length() > 0).findFirst().orElse(Item.builder().build());
+
+
+        SearchRecallViewModelFactory searchRecallViewModelFactory = InjectorUtils.provideSearchRecallViewModelFactory(getActivity().getApplication(), itemProduct.getBrand());
         mSearchLowViewModel = new ViewModelProvider(this, searchRecallViewModelFactory).get(LowViewModel.class);
 
 
@@ -188,18 +181,19 @@ public class BarcodeResultFragment extends BottomSheetDialogFragment {
     }
 
     private void setUpViewModels() {
-        //Search for BarCode calling first Api
+        //Search for BarCode calling first Api and insert into db
         SearchViewModelFactory searchViewModelFactory = InjectorUtils.provideSearchViewModelFactory(getActivity().getApplication(), barCodeUpcNumber);
 
         mSearchUPCViewModel = new ViewModelProvider(this, searchViewModelFactory).get(SearchUPCViewModel.class);
 
-
-
-
+        mSearchUPCViewModel.getmUPCwithOfferItemListLiveData().observe(this, upCode -> {
+            Log.d(TAG, "setUpViewModels: Search for UPC with upcItemDB API" + upCode.stream().map(item -> item.getItemList().size()));
+            searchRecallWithProductNameList = upCode.stream().map(UpcWithOfferItemList::getItemList).findFirst().orElse(null);
+        });
 
     }
-    
-    
+
+
 
 
 }

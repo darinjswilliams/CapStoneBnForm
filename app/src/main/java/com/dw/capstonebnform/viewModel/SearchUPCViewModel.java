@@ -1,5 +1,7 @@
 package com.dw.capstonebnform.viewModel;
 
+import android.app.Application;
+
 import com.dw.capstonebnform.dto.UpcWithOfferItemList;
 import com.dw.capstonebnform.network.UpcRepository;
 
@@ -13,8 +15,9 @@ public class SearchUPCViewModel extends ViewModel {
     private LiveData<List<UpcWithOfferItemList>> mUPCwithOfferItemListLiveData;
     private UpcRepository upcRepository;
 
-    public SearchUPCViewModel(UpcRepository upcRepository, String upc) {
+    public SearchUPCViewModel(Application application, String upc) {
 
+        upcRepository = UpcRepository.getInstance(application);
         mUPCwithOfferItemListLiveData = upcRepository.getUpcWithOfferItems(upc);
 
     }

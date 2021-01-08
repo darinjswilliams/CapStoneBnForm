@@ -29,9 +29,9 @@ public class LowViewModel extends AndroidViewModel {
         mRecallWithInjuriesAndImagesAndProducts = appRepo.getRecallWithInjuriesAndImagesAndProducts();
     }
 
-    public LowViewModel(@NonNull AppRepository appRepo, String productName, Application application) {
+    public LowViewModel(@NonNull  Application application,  String productName) {
         super(application);
-        this.appRepo = appRepo;
+        appRepo = AppRepository.getInstance(application);
         Log.d(TAG, "LowViewModel: Here is the RecallDescription.. " + productName);
          productIsOnRecallList = appRepo.retrieveSearchRecallProducts(productName);
     }
@@ -42,7 +42,7 @@ public class LowViewModel extends AndroidViewModel {
 
 
     public LiveData<List<SearchRecallProducts>> findRecallProducts(){
-        Log.d(TAG, "isProductIsOnRecall: " + productIsOnRecallList.getValue().size());
+        Log.d(TAG, "isProductIsOnRecall: " );
         return productIsOnRecallList;
     }
 
