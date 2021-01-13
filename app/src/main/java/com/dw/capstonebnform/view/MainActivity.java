@@ -117,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, String.format(String.format("onActivityResult: " + requestCode)));
         if (requestCode == RC_SIGN_IN) {
             IdpResponse response = IdpResponse.fromResultIntent(data);
 
@@ -145,8 +144,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Log.i(TAG, "onOptionsItemSelected: " + item);
-
-//        navController = Navigation.findNavController(this, R.id.nav_host_fragment_container);
 
         //Show where item is checkmarked on drawer
         item.setChecked(true);
@@ -207,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
     private void signOut(){
         AuthUI.getInstance().signOut(this);
     }
-    
+
 
     public void openWebPage(MenuItem item) {
         drawerLayout.closeDrawer(GravityCompat.START);
