@@ -207,18 +207,7 @@ public class MainActivity extends AppCompatActivity {
     private void signOut(){
         AuthUI.getInstance().signOut(this);
     }
-
-    private void openWebPage(){
-
-        //Close drawer
-//        drawerLayout.closeDrawer(GravityCompat.START);
-
-        Uri webpage = Uri.parse(Constants.RECALL_NEWS);
-        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        }
-    }
+    
 
     public void openWebPage(MenuItem item) {
         drawerLayout.closeDrawer(GravityCompat.START);
