@@ -1,14 +1,12 @@
 package com.dw.capstonebnform.view;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.dw.capstonebnform.R;
@@ -39,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private NavController navController;
     private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
     private Toolbar toolBar;
     private AppBarConfiguration appBarConfiguration;
+    private NavigationView navigationView;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private static final int RC_SIGN_IN = 1;
@@ -54,77 +52,46 @@ public class MainActivity extends AppCompatActivity {
         //Initialize firebase authetication
         mFirebaseAuth = FirebaseAuth.getInstance();
 
+        setUpNavigation();
 
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    //User is signed in
+                    Toast.makeText(MainActivity.this, "You have successfully signed In", Toast.LENGTH_SHORT).show();
 
-        mAuthStateListener = firebaseAuth -> {
-            FirebaseUser  user = firebaseAuth.getCurrentUser();
-            if (user != null) {
-                //User is signed in
-                Toast.makeText(MainActivity.this, "You have successfully signed In", Toast.LENGTH_SHORT).show();
-                setupNavigation();
-            } else {
-                //user is signed out, so start sign in flow
+                } else {
+                    //user is signed out, so start sign in flow
+                    signOut();
 
-                List<AuthUI.IdpConfig> providers = Arrays.asList(
-                        new AuthUI.IdpConfig.EmailBuilder().build(),
-                        new AuthUI.IdpConfig.GoogleBuilder().build(),
-                        new AuthUI.IdpConfig.FacebookBuilder().build(),
-                        new AuthUI.IdpConfig.PhoneBuilder().build()
+                    List<AuthUI.IdpConfig> providers = Arrays.asList(
+                            new AuthUI.IdpConfig.EmailBuilder().build(),
+                            new AuthUI.IdpConfig.GoogleBuilder().build(),
+                            new AuthUI.IdpConfig.FacebookBuilder().build(),
+                            new AuthUI.IdpConfig.PhoneBuilder().build()
 
-                );
+                    );
 
-                startActivityForResult(
-                        AuthUI.getInstance()
-                                .createSignInIntentBuilder()
-                                .setAvailableProviders(providers)
-                                .setLogo(R.drawable.bnform_widget_icon)
-                                .setIsSmartLockEnabled(false)
-                                .setTheme(R.style.AppTheme)
-                                .build(),
-                        RC_SIGN_IN);
+                    startActivityForResult(
+                            AuthUI.getInstance()
+                                    .createSignInIntentBuilder()
+                                    .setAvailableProviders(providers)
+                                    .setLogo(R.drawable.bnform_widget_icon)
+                                    .setIsSmartLockEnabled(false)
+                                    .setTheme(R.style.AppTheme)
+                                    .build(),
+                            RC_SIGN_IN);
 
-            }
-
-        };
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, String.format(String.format("onActivityResult: " + requestCode)));
-        if (requestCode == RC_SIGN_IN) {
-            IdpResponse response = IdpResponse.fromResultIntent(data);
-
-
-            if (resultCode == RESULT_OK) {
-
-             setupNavigation();
-                // ...
-            } else if (resultCode == RESULT_CANCELED){
-                // Sign in failed. If response is null the user canceled the
-                // sign-in flow using the back button. Otherwise check
-                Toast.makeText(this, getResources().getString(R.string.login_cancel), Toast.LENGTH_SHORT).show();
-                finish();
-
-            } else {
-                Log.i(TAG, "onActivityResult: fail to sign in");
-                if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
-                    Toast.makeText(this,getResources().getString(R.string.no_network), Toast.LENGTH_SHORT).show();
-                    finish();
                 }
 
             }
-        }
+        };
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(@Nullable View parent, @NonNull String name, @NonNull Context context, @NonNull AttributeSet attrs) {
-        return super.onCreateView(parent, name, context, attrs);
-    }
-
-    private void setupNavigation() {
+    private void setUpNavigation() {
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_container);
 
@@ -148,30 +115,53 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, String.format(String.format("onActivityResult: " + requestCode)));
+        if (requestCode == RC_SIGN_IN) {
+            IdpResponse response = IdpResponse.fromResultIntent(data);
+
+
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(MainActivity.this, "You have successfully signed In", Toast.LENGTH_SHORT).show();
+                // ...
+            } else if (resultCode == RESULT_CANCELED){
+                // Sign in failed. If response is null the user canceled the
+                // sign-in flow using the back button. Otherwise check
+                Toast.makeText(this, getResources().getString(R.string.login_cancel), Toast.LENGTH_SHORT).show();
+                finish();
+
+            } else {
+                Log.i(TAG, "onActivityResult: fail to sign in");
+                if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
+                    Toast.makeText(this,getResources().getString(R.string.no_network), Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+
+            }
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Log.i(TAG, "onOptionsItemSelected: " + item);
 
-        navController = Navigation.findNavController(this, R.id.nav_host_fragment_container);
+//        navController = Navigation.findNavController(this, R.id.nav_host_fragment_container);
 
         //Show where item is checkmarked on drawer
         item.setChecked(true);
 
         switch (item.getItemId()) {
             case R.id.loginOut:
-                FirebaseAuth.getInstance().signOut();
-                finish();
-                break;
+                AuthUI.getInstance().signOut(this);
+                return true;
 
             case R.id.newsForum:
-                openWebPage(Constants.RECALL_NEWS);
+                Log.d(TAG, "onOptionsItemSelected: Close Drawer");
+                Toast.makeText(this, "open recall website", Toast.LENGTH_SHORT).show();
+                openWebPage(item);
                 break;
         }
-
-
-        //Close drawer after clicked
-        drawerLayout.closeDrawers();
-
-        Context context = MainActivity.this;
 
         return NavigationUI.onNavDestinationSelected(item, navController)
                 || super.onOptionsItemSelected(item);
@@ -181,25 +171,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
     }
 
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-        //Handle the back button pressed on device
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        }
-        else {
-            if (mAuthStateListener != null)
-                finish();
-
-        }
-    }
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -232,16 +208,26 @@ public class MainActivity extends AppCompatActivity {
         AuthUI.getInstance().signOut(this);
     }
 
-    private void openWebPage(String url){
+    private void openWebPage(){
 
         //Close drawer
 //        drawerLayout.closeDrawer(GravityCompat.START);
 
-        Uri webpage = Uri.parse(url);
+        Uri webpage = Uri.parse(Constants.RECALL_NEWS);
         Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
     }
 
+    public void openWebPage(MenuItem item) {
+        drawerLayout.closeDrawer(GravityCompat.START);
+
+        Uri webpage = Uri.parse(Constants.RECALL_NEWS);
+        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+
+    }
 }

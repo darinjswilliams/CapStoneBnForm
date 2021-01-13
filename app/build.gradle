@@ -8,11 +8,11 @@ apply plugin: 'androidx.navigation.safeargs'
 
 android {
     signingConfigs {
-        config {
-            storeFile file("$rootDir/keystore.jks")
-            storePassword 'benson'
-            keyAlias 'bnform'
-            keyPassword 'benson'
+        release {
+            storeFile file('$rootdir/keystore.jks')
+            storePassword 'Benson'
+            keyAlias 'Bnform'
+            keyPassword 'Benson'
         }
     }
     compileSdkVersion 30
@@ -34,7 +34,7 @@ android {
             minifyEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
+            signingConfig signingConfigs.release
         }
     }
 
