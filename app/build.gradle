@@ -7,14 +7,6 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'androidx.navigation.safeargs'
 
 android {
-    signingConfigs {
-        config {
-            storeFile file("$rootDir/keystore.jks")
-            storePassword 'Benson'
-            keyAlias 'Bnform'
-            keyPassword 'Benson'
-        }
-    }
     compileSdkVersion 30
     buildToolsVersion "29.0.3"
 
@@ -28,15 +20,6 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            shrinkResources false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
-        }
-    }
 
     //Enable DataBinding
     buildFeatures{

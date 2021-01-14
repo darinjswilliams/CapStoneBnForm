@@ -112,4 +112,5 @@
     <string name="camera_permisson_requested">Camera Permission is needed to Scan Bar/QR Code
     </string>
     <string name="menu_news">Recall News</string>
+    <string name="bnform_logo">Bnform Logo</string>
 </resources>
