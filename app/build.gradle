@@ -8,10 +8,10 @@ apply plugin: 'androidx.navigation.safeargs'
 
 android {
     signingConfigs {
-        config {
+        releaseKey {
             storeFile file("$rootDir/keystore.jks")
             storePassword 'Benson1'
-            keyAlias 'Bnform'
+            keyAlias 'Benson1'
             keyPassword 'Benson1'
         }
     }
@@ -43,7 +43,7 @@ android {
     }
     buildTypes {
         release {
-            signingConfig signingConfigs.config
+            signingConfig signingConfigs.releaseKey
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt')
