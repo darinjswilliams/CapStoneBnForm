@@ -17,7 +17,8 @@
         android:id="@+id/nav_header_imageView"
         android:layout_width="88dp"
         android:layout_height="91dp"
-        android:src="@mipmap/ic_launcher_bnform" />
+        android:src="@mipmap/ic_launcher_bnform"
+        android:contentDescription="@string/bnform_logo" />
 
     <TextView
         android:id="@+id/nav_header_textView"

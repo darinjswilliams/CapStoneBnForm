@@ -8,11 +8,11 @@ apply plugin: 'androidx.navigation.safeargs'
 
 android {
     signingConfigs {
-        releaseKey {
+        config {
             storeFile file("$rootDir/keystore.jks")
-            storePassword 'Benson1'
-            keyAlias 'Benson1'
-            keyPassword 'Benson1'
+            storePassword 'Capstone'
+            keyAlias 'udacity'
+            keyPassword 'Capstone'
         }
     }
     compileSdkVersion 30
@@ -42,11 +42,13 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     buildTypes {
+        debug {
+            minifyEnabled false
+        }
         release {
-            signingConfig signingConfigs.releaseKey
+            signingConfig signingConfigs.config
             minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt')
+            proguardFiles 'proguard-rules.pro', getDefaultProguardFile('proguard-android.txt')
         }
     }
 }
@@ -150,11 +152,11 @@ dependencies {
     implementation "com.firebaseui:firebase-ui-auth:$firebase_authentication_version"
 
     // Import the BoM for the Firebase platform
-//    implementation platform('com.google.firebase:firebase-bom:24.7.1')
+    implementation platform('com.google.firebase:firebase-bom:24.7.1')
 
     // Declare the dependency for the Firebase Authentication library
     // When using the BoM, you don't specify versions in Firebase library dependencies
-//    implementation 'com.google.firebase:firebase-auth:20.0.1'
+    implementation 'com.google.firebase:firebase-auth'
 //    implementation 'com.google.firebase:firebase-core:18.0.0'
 
     // Also declare the dependency for the Google Play services library and specify its version

@@ -15,6 +15,8 @@ import com.dw.capstonebnform.utils.InjectorUtils;
 import com.dw.capstonebnform.viewModel.LowViewModel;
 import com.dw.capstonebnform.viewModel.SharedViewModelFactory;
 
+import org.jetbrains.annotations.NotNull;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -60,7 +62,7 @@ public class LowAlertFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         Log.i(TAG, "onCreateView: ");

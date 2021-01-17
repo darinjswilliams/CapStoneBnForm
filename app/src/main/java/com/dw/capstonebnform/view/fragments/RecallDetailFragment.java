@@ -12,6 +12,8 @@ import com.dw.capstonebnform.databinding.FragmentRecallDetailBinding;
 import com.dw.capstonebnform.dto.RecallWithInjuriesAndImagesAndProducts;
 import com.squareup.picasso.Picasso;
 
+import org.jetbrains.annotations.NotNull;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -39,7 +41,7 @@ public class RecallDetailFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mfragmentRecallDetailBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_recall_detail, container, false);

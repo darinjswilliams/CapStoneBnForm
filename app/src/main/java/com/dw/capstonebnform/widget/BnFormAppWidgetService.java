@@ -145,7 +145,7 @@ public class BnFormAppWidgetService extends RemoteViewsService {
     }
 
     public static String parseDate(String inputDateString, SimpleDateFormat inputDateFormat, SimpleDateFormat outputDateFormat) {
-        Date date = null;
+        Date date;
         String outputDateString = null;
         try {
             date = inputDateFormat.parse(inputDateString);

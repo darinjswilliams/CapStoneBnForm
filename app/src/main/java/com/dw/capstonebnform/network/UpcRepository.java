@@ -11,6 +11,8 @@ import com.dw.capstonebnform.upc.Offer;
 import com.dw.capstonebnform.upc.UPCodeSearch;
 import com.dw.capstonebnform.upc.UrlList;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,7 +67,7 @@ public class UpcRepository  {
 
         call.enqueue(new Callback<UPCodeSearch>() {
             @Override
-            public void onResponse(Call<UPCodeSearch> call, Response<UPCodeSearch> response) {
+            public void onResponse(@NotNull Call<UPCodeSearch> call, @NotNull Response<UPCodeSearch> response) {
                 Log.d(TAG, "onResponse: AppRepository Success");
                 if(response.isSuccessful()){
 
@@ -103,7 +105,7 @@ public class UpcRepository  {
             }
 
             @Override
-            public void onFailure(Call<UPCodeSearch> call, Throwable t) {
+            public void onFailure(@NotNull Call<UPCodeSearch> call, @NotNull Throwable t) {
                 Log.d(TAG, "AppRepository: onFailure: " + t.getLocalizedMessage());
                 Log.d(TAG, "onFailure: Stack Trace.." + t.getStackTrace());
             }

@@ -14,6 +14,8 @@ import com.dw.capstonebnform.persistance.AppDatabase;
 import com.dw.capstonebnform.persistance.AppExecutors;
 import com.dw.capstonebnform.utils.DateUtils;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -112,7 +114,7 @@ public class AppRepository {
             }
 
             @Override
-            public void onFailure(Call<List<Recall>> call, Throwable t) {
+            public void onFailure(@NotNull Call<List<Recall>> call, @NotNull Throwable t) {
                 Log.d(TAG, "AppRepository: onFailure: " + t.getLocalizedMessage());
                 Log.d(TAG, "onFailure: Stack Trace.." + t.getStackTrace());
             }
@@ -203,7 +205,7 @@ public class AppRepository {
             }
 
             @Override
-            public void onFailure(Call<List<SearchRecallProducts>> call, Throwable t) {
+            public void onFailure(@NotNull Call<List<SearchRecallProducts>> call, @NotNull Throwable t) {
                 Log.d(TAG, "onFailure: ");
             }
         });
