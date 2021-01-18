@@ -8,10 +8,10 @@ apply plugin: 'androidx.navigation.safeargs'
 
 android {
     signingConfigs {
-        config {
+        releaseConfig {
             storeFile file("$rootDir/keystore.jks")
             storePassword 'Capstone'
-            keyAlias 'udacity'
+            keyAlias 'Bnform'
             keyPassword 'Capstone'
         }
     }
@@ -38,6 +38,7 @@ android {
     }
 
     compileOptions {
+        encoding "UTF-8"
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -46,9 +47,9 @@ android {
             minifyEnabled false
         }
         release {
-            signingConfig signingConfigs.config
-            minifyEnabled true
-            proguardFiles 'proguard-rules.pro', getDefaultProguardFile('proguard-android.txt')
+            signingConfig signingConfigs.releaseConfig
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled false
         }
     }
 }
