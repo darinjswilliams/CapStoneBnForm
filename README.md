@@ -43,13 +43,13 @@ The following URI will retrieve the same result set as above in Json format:
 - Report Information to Consumer Product Safety Board
 
 ## Third Party Integration
-Picasso
-Retrofit
-Room
-Safety Api
-Google Play Services
-Firebase Analytics
-Firebase UI Authentication
+- Picasso
+- Retrofit
+- Room
+- Safety Api
+- Google Play Services
+- Firebase Analytics
+- Firebase UI Authentication
 
 
 
