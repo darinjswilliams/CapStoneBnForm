@@ -34,15 +34,15 @@ http://www.saferproducts.gov/RestWebServices/Recall?RecallTitle=child&RecallDesc
 Note that neither "child" nor "metal" need be an actual word in the respective fields. For instance, a recall had the proper noun Fairchild in the title and the qualifier non‐metallic in the description would be a match for the above request.
 The following URI will retrieve the same result set as above in Json format:
 
-# Features
-Scan BarCode and QR Code
-Firebase UI Login
-Firebase Analytics
-Share Information between users
-Widget
-Report Information to Consumer Product Safety Board
+## Features
+- Scan BarCode and QR Code
+- Firebase UI Login
+- Firebase Analytics
+- Share Information between users
+- Widget
+- Report Information to Consumer Product Safety Board
 
-#Third Party Integration
+## Third Party Integration
 Picasso
 Retrofit
 Room
