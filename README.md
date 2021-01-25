@@ -53,5 +53,4 @@ Firebase UI Authentication
 
 
 
-
 http://www.saferproducts.gov/RestWebServices/Recall?format=json&RecallTitle=Child&RecallDescription=metal
